@@ -32,61 +32,56 @@ class HomeController extends Controller
     public function index()
     {
         $user = Auth::user();
-        
+
         if ($user->hasRole('Admin')) {
 
             $parents = Parents::latest()->get();
             $teachers = Teacher::latest()->get();
             $students = Student::latest()->get();
 
-            return view('home', compact('parents','teachers','students'));
-
+            return view('home', compact('parents', 'teachers', 'students'));
         } elseif ($user->hasRole('Teacher')) {
 
-            $teacher = Teacher::with(['user','subjects','classes','students'])->withCount('subjects','classes')->findOrFail($user->teacher->id);
+            $teacher = Teacher::with(['user', 'courses', 'classes', 'students'])->withCount('courses', 'classes')->findOrFail($user->teacher->id);
 
             return view('home', compact('teacher'));
-
         } elseif ($user->hasRole('Parent')) {
-            
-            $parents = Parents::with(['children'])->withCount('children')->findOrFail($user->parent->id); 
+
+            $parents = Parents::with(['children'])->withCount('children')->findOrFail($user->parent->id);
 
             return view('home', compact('parents'));
-
         } elseif ($user->hasRole('Student')) {
-            
-            $student = Student::with(['user','parent','class','attendances'])->findOrFail($user->student->id); 
+
+            $student = Student::with(['user', 'parent', 'class', 'attendances'])->findOrFail($user->student->id);
 
             return view('home', compact('student'));
-
         } else {
             return 'NO ROLE ASSIGNED YET!';
         }
-        
     }
 
     /**
      * PROFILE
      */
-    public function profile() 
+    public function profile()
     {
         return view('profile.index');
     }
 
-    public function profileEdit() 
+    public function profileEdit()
     {
         return view('profile.edit');
     }
 
-    public function profileUpdate(Request $request) 
+    public function profileUpdate(Request $request)
     {
         $request->validate([
             'name'  => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,'.auth()->id()
+            'email' => 'required|string|email|max:255|unique:users,email,' . auth()->id()
         ]);
 
         if ($request->hasFile('profile_picture')) {
-            $profile = Str::slug(auth()->user()->name).'-'.auth()->id().'.'.$request->profile_picture->getClientOriginalExtension();
+            $profile = Str::slug(auth()->user()->name) . '-' . auth()->id() . '.' . $request->profile_picture->getClientOriginalExtension();
             $request->profile_picture->move(public_path('images/profile'), $profile);
         } else {
             $profile = 'avatar.png';
@@ -107,18 +102,18 @@ class HomeController extends Controller
      * CHANGE PASSWORD
      */
     public function changePasswordForm()
-    {  
+    {
         return view('profile.changepassword');
     }
 
     public function changePassword(Request $request)
-    {     
+    {
         if (!(Hash::check($request->get('currentpassword'), Auth::user()->password))) {
             return back()->with([
                 'msg_currentpassword' => 'Your current password does not matches with the password you provided! Please try again.'
             ]);
         }
-        if(strcmp($request->get('currentpassword'), $request->get('newpassword')) == 0){
+        if (strcmp($request->get('currentpassword'), $request->get('newpassword')) == 0) {
             return back()->with([
                 'msg_currentpassword' => 'New Password cannot be same as your current password! Please choose a different password.'
             ]);

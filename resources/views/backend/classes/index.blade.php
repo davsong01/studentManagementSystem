@@ -32,7 +32,7 @@
                         </span>
                     </div>
                     <div class="w-4/12 px-4 py-3 text-sm text-gray-600 text-center tracking-tight">
-                        @foreach ($class->subjects as $subject)
+                        @foreach ($class->courses as $subject)
                             <span class="bg-gray-200 text-sm mr-1 mb-1 px-2 font-semibold border rounded-full">{{ $subject->subject_code }}</span>
                         @endforeach
                     </div>

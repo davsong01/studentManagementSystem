@@ -16,14 +16,14 @@ class CreateStudentsTable extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('parent_id');
-            $table->unsignedBigInteger('class_id');
-            $table->unsignedBigInteger('roll_number');
+            $table->unsignedBigInteger('department_id');
+            $table->unsignedBigInteger('faculty_id');
+            $table->string('academic_session');
+            $table->string('semester');
             $table->enum('gender', ['male', 'female', 'other']);
             $table->string('phone');
             $table->date('dateofbirth');
             $table->string('current_address');
-            $table->string('permanent_address');
             $table->timestamps();
         });
     }

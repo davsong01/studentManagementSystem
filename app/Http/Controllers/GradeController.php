@@ -29,7 +29,7 @@ class GradeController extends Controller
     public function create()
     {
         $teachers = Teacher::latest()->get();
-        
+
         return view('backend.classes.create', compact('teachers'));
     }
 
@@ -80,7 +80,7 @@ class GradeController extends Controller
         $teachers = Teacher::latest()->get();
         $class = Grade::findOrFail($id);
 
-        return view('backend.classes.edit', compact('class','teachers'));
+        return view('backend.classes.edit', compact('class', 'teachers'));
     }
 
     /**
@@ -93,7 +93,7 @@ class GradeController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'class_name'        => 'required|string|max:255|unique:grades,class_name,'.$id,
+            'class_name'        => 'required|string|max:255|unique:grades,class_name,' . $id,
             'class_numeric'     => 'required|numeric',
             'teacher_id'        => 'required|numeric',
             'class_description' => 'required|string|max:255'
@@ -120,28 +120,28 @@ class GradeController extends Controller
     public function destroy($id)
     {
         $class = Grade::findOrFail($id);
-        
-        $class->subjects()->detach();
+
+        $class->courses()->detach();
         $class->delete();
 
         return back();
     }
 
     /*
-     * Assign Subjects to Grade 
+     * Assign Courses to Grade 
      * 
      * @return \Illuminate\Http\Response
      */
     public function assignSubject($classid)
     {
-        $subjects   = Subject::latest()->get();
-        $assigned   = Grade::with(['subjects','students'])->findOrFail($classid);
+        $courses   = Subject::latest()->get();
+        $assigned   = Grade::with(['courses', 'students'])->findOrFail($classid);
 
-        return view('backend.classes.assign-subject', compact('classid','subjects','assigned'));
+        return view('backend.classes.assign-courses', compact('classid', 'courses', 'assigned'));
     }
 
     /*
-     * Add Assigned Subjects to Grade 
+     * Add Assigned Courses to Grade 
      * 
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -150,7 +150,7 @@ class GradeController extends Controller
     {
         $class = Grade::findOrFail($id);
 
-        $class->subjects()->sync($request->selectedsubjects);
+        $class->courses()->sync($request->selectedcourses);
 
         return redirect()->route('classes.index');
     }

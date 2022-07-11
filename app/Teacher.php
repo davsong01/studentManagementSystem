@@ -20,7 +20,7 @@ class Teacher extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function subjects()
+    public function courses()
     {
         return $this->hasMany(Subject::class);
     }
@@ -30,7 +30,7 @@ class Teacher extends Model
         return $this->hasMany(Grade::class);
     }
 
-    public function students() 
+    public function students()
     {
         return $this->classes()->withCount('students');
     }

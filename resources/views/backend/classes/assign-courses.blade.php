@@ -25,11 +25,11 @@
                         </label>
                     </div>
                     <div class="md:w-2/3 block text-gray-600 font-bold">
-                        @foreach ($subjects as $subject)
+                        @foreach ($courses as $subject)
                             <div class="flex items-center">
                                 <label>
-                                    <input name="selectedsubjects[]" class="mr-2 leading-tight" type="checkbox" value="{{ $subject->id }}"
-                                        @foreach ($assigned->subjects as $item)
+                                    <input name="selectedcourses[]" class="mr-2 leading-tight" type="checkbox" value="{{ $subject->id }}"
+                                        @foreach ($assigned->courses as $item)
                                             {{ ($item->id === $subject->id) ? 'checked' : '' }}
                                         @endforeach
                                     >

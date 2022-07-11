@@ -10,4 +10,10 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    public function getSessions(){
+        $years = array_combine(range(date("Y"), 1910), range(date("Y"), 1910));
+
+        return $years;
+    }
 }

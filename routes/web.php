@@ -42,7 +42,9 @@ Route::group(['middleware' => ['auth','role:Admin']], function ()
 
     Route::resource('assignrole', 'RoleAssign');
     Route::resource('classes', 'GradeController');
-    Route::resource('subject', 'SubjectController');
+    Route::resource('course', 'CourseController');
+    Route::resource('faculty', 'FacultyController');
+    Route::resource('department', 'DepartmentController');
     Route::resource('teacher', 'TeacherController');
     Route::resource('parents', 'ParentsController');
     Route::resource('student', 'StudentController');
@@ -62,5 +64,7 @@ Route::group(['middleware' => ['auth','role:Parent']], function ()
 });
 
 Route::group(['middleware' => ['auth','role:Student']], function () {
-
+    Route::get('student/courses', 'HomeController@viewCourse')->name('student.course');
+    Route::get('student/courses', 'HomeController@registerCourse')->name('student.register.course');
+    Route::post('student/courses', 'HomeController@registerCourse')->name('student.save.course');
 });

@@ -20,7 +20,7 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = Student::with('class')->latest()->paginate(10);
+        $students = Student::with('class')->latest()->paginate(20);
 
         return view('backend.students.index', compact('students'));
     }
@@ -34,8 +34,8 @@ class StudentController extends Controller
     {
         $classes = Grade::latest()->get();
         $parents = Parents::with('user')->latest()->get();
-        
-        return view('backend.students.create', compact('classes','parents'));
+
+        return view('backend.students.create', compact('classes', 'parents'));
     }
 
     /**
@@ -73,7 +73,7 @@ class StudentController extends Controller
         ]);
 
         if ($request->hasFile('profile_picture')) {
-            $profile = Str::slug($user->name).'-'.$user->id.'.'.$request->profile_picture->getClientOriginalExtension();
+            $profile = Str::slug($user->name) . '-' . $user->id . '.' . $request->profile_picture->getClientOriginalExtension();
             $request->profile_picture->move(public_path('images/profile'), $profile);
         } else {
             $profile = 'avatar.png';
@@ -106,9 +106,9 @@ class StudentController extends Controller
      */
     public function show(Student $student)
     {
-        $class = Grade::with('subjects')->where('id', $student->class_id)->first();
-        
-        return view('backend.students.show', compact('class','student'));
+        $class = Grade::with('courses')->where('id', $student->class_id)->first();
+
+        return view('backend.students.show', compact('class', 'student'));
     }
 
     /**
@@ -122,7 +122,7 @@ class StudentController extends Controller
         $classes = Grade::latest()->get();
         $parents = Parents::with('user')->latest()->get();
 
-        return view('backend.students.edit', compact('classes','parents','student'));
+        return view('backend.students.edit', compact('classes', 'parents', 'student'));
     }
 
     /**
@@ -136,7 +136,7 @@ class StudentController extends Controller
     {
         $request->validate([
             'name'              => 'required|string|max:255',
-            'email'             => 'required|string|email|max:255|unique:users,email,'.$student->user_id,
+            'email'             => 'required|string|email|max:255|unique:users,email,' . $student->user_id,
             'parent_id'         => 'required|numeric',
             'class_id'          => 'required|numeric',
             'roll_number'       => [
@@ -154,7 +154,7 @@ class StudentController extends Controller
         ]);
 
         if ($request->hasFile('profile_picture')) {
-            $profile = Str::slug($student->user->name).'-'.$student->user->id.'.'.$request->profile_picture->getClientOriginalExtension();
+            $profile = Str::slug($student->user->name) . '-' . $student->user->id . '.' . $request->profile_picture->getClientOriginalExtension();
             $request->profile_picture->move(public_path('images/profile'), $profile);
         } else {
             $profile = $student->user->profile_picture;
@@ -193,7 +193,7 @@ class StudentController extends Controller
         $user->removeRole('Student');
 
         if ($user->delete()) {
-            if($user->profile_picture != 'avatar.png') {
+            if ($user->profile_picture != 'avatar.png') {
                 $image_path = public_path() . '/images/profile/' . $user->profile_picture;
                 if (is_file($image_path) && file_exists($image_path)) {
                     unlink($image_path);

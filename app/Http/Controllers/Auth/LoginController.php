@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -35,5 +36,34 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    // public function username()
+    // {
+    //     return 'matric';
+    // }
+
+    public function login(Request $request)
+
+    {
+
+        $input = $request->all();
+        $this->validate($request,
+            [
+                'username' => 'required',
+                'password' => 'required',
+            ]
+        );
+       
+        $fieldType = filter_var($request->username) ? 'matric' : 'staff_no';
+        
+        if (auth()->attempt(array($fieldType => $input['username'], 'password' => $input['password']))) {
+            return redirect()->route('home');
+        }
+       
+        else {
+            return redirect()->route('login')
+                ->with('error', 'Invalid credentials, try again!');
+        }
     }
 }
