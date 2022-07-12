@@ -45,11 +45,11 @@ Route::group(['middleware' => ['auth','role:Admin']], function ()
     Route::resource('course', 'CourseController');
     Route::resource('faculty', 'FacultyController');
     Route::resource('department', 'DepartmentController');
-    Route::resource('teacher', 'TeacherController');
     Route::resource('parents', 'ParentsController');
     Route::resource('student', 'StudentController');
+    Route::resource('courseForm', 'CourseFormController');
+    Route::post('show-available-courses', 'CourseFormController@showAvailableCourses')->name('available.courses');
     Route::get('attendance', 'AttendanceController@index')->name('attendance.index');
-
 });
 
 Route::group(['middleware' => ['auth','role:Teacher']], function () 

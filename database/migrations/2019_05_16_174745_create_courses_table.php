@@ -18,11 +18,12 @@ class CreateCoursesTable extends Migration
             $table->string('course_title');
             $table->string('course_code');
             $table->string('department_id');
+            $table->integer('unit');
             $table->string('program');
             $table->string('semester');
             $table->string('level');
             $table->string('faculty_id');
-            $table->string('general')->default('no');
+            $table->string('type')->nullable(); // Elective, Core, general
             $table->timestamps();
         });
     }

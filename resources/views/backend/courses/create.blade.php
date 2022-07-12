@@ -30,6 +30,19 @@
                 <input type="text" class="form-control" id="name" value="{{ old('course_code') }}" name="course_code" placeholder="Enter course code" required>
             </div>
             <div class="form-group">
+                <label for="units">Course Units</label>
+                <input type="number" min="1" class="form-control" id="unit" value="{{ old('units') }}" name="units" placeholder="Enter course units" required>
+            </div>
+            <div class="form-group">
+                <label for="type">Course Type</label>
+                <select class="form-control" id="type" name="type">
+                    <option>Select</option>
+                    <option value="C" {{ old('type') == 'C' ? 'selected' : '' }}>Core</option>
+                    <option value="E" {{ old('type') == 'E' ? 'selected' : '' }}>Elective</option>
+                    <option value="G" {{ old('type') == 'G' ? 'selected' : '' }}>General</option>
+                </select>
+            </div>
+            <div class="form-group">
                 <label for="faculty">Select Faculty</label>
                 <select class="form-control" id="faculty" name="faculty">
                     <option>Select</option>

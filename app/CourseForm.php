@@ -2,15 +2,12 @@
 
 namespace App;
 
-use App\Faculty;
-use App\Department;
 use NumberFormatter;
 use Illuminate\Database\Eloquent\Model;
 
-class Course extends Model
+class CourseForm extends Model
 {
-    protected $fillable = ['course_code',"course_title","faculty_id","department_id","program","semester", "level","units","type"];
-
+    protected $guarded = [];
     public function department()
     {
         return $this->belongsTo(Department::class);

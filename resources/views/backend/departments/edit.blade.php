@@ -28,7 +28,7 @@
             <div class="form-group">
                 <label for="faculty">Select Faculty</label>
                 <select class="form-control" id="faculty" name="faculty" required>
-                    <option>Select</option>
+                    <option value="">Select</option>
                     @foreach($faculties as $faculty)
                     <option value="{{ $faculty->id }}" {{ $faculty->id == $department->faculty_id ? 'selected' : ''}}>{{ $faculty->name }}</option>
                     @endforeach

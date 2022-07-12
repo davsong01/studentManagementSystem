@@ -6,7 +6,7 @@
 @endif
 
 @if(session()->get('error'))
-<div class="alert alert-secondary dark alert-dismissible fade show" role="alert">
+<div class="alert alert-danger dark alert-dismissible fade show" role="alert">
       <strong class="m-l-20">Whoops!</strong> {!! session()->get('error') !!}
       <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
@@ -14,7 +14,7 @@
 
 @if(session()->get('warning'))
 <div class="alert alert-warning dark alert-dismissible fade show" role="alert">
-      <strong>Hi!</strong> {!! session()->get('warning') !!}
+      {!! session()->get('warning') !!}
       <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 @endif

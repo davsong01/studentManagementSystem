@@ -15,7 +15,6 @@ class CourseController extends Controller
     public function index()
     {
         $courses = Course::with('faculty', 'department')->latest()->get();
-      
         return view('backend.courses.index', compact('courses'));
     }
 
@@ -37,6 +36,8 @@ class CourseController extends Controller
             "department" => "required",
             "program" => "required",
             "level" => "required",
+            "units" => "required",
+            "type" => "required",
             "semester" => "required|numeric"
         ]);
         $data['department_id'] = $request->department;
@@ -51,37 +52,41 @@ class CourseController extends Controller
         //
     }
 
-    public function edit(Subject $subject)
+    public function edit(Course $course)
     {
-        $teachers = Teacher::latest()->get();
+        $faculties = Faculty::latest()->get();
+        $departments = Department::latest()->get();
+        $years = $this->getSessions();
 
-        return view('backend.courses.edit', compact('subject', 'teachers'));
+        return view('backend.courses.edit', compact('faculties','departments','years','course'));
     }
 
-    public function update(Request $request, Subject $subject)
+    public function update(Request $request, Course $course)
     {
-        $request->validate([
-            'name'          => 'required|string|max:255|unique:courses,name,' . $subject->id,
-            'subject_code'  => 'required|numeric',
-            'teacher_id'    => 'required|numeric',
-            'description'   => 'required|string|max:255'
+        $data = $this->validate($request, [
+            'course_code' => 'required|string|max:255|unique:courses,course_code,' . $course->id,
+            "course_title" => "required",
+            "faculty" => "required",
+            "department" => "required",
+            "program" => "required",
+            "level" => "required",
+            "units" => "required",
+            "type" => "required",
+            "semester" => "required|numeric"
         ]);
+        
+        $data['department_id'] = $request->department;
+        $data['faculty_id'] = $request->faculty;
 
-        $subject->update([
-            'name'          => $request->name,
-            'slug'          => Str::slug($request->name),
-            'subject_code'  => $request->subject_code,
-            'teacher_id'    => $request->teacher_id,
-            'description'   => $request->description
-        ]);
+        $course->update($data);
 
-        return redirect()->route('subject.index');
+        return redirect()->route('course.index')->with('message', 'Operation successful');
+
     }
 
-    public function destroy(Subject $subject)
+    public function destroy(Course $course)
     {
-        $subject->delete();
-
-        return back();
+        $course->delete();
+        return back()->with('message', 'Operation succesful');
     }
 }

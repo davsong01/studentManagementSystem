@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Grade;
+use App\Faculty;
 use App\Parents;
 use App\Student;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use App\Department;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Hash;
 
 class StudentController extends Controller
 {
@@ -20,8 +22,8 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = Student::with('class')->latest()->paginate(20);
-
+        $students = Student::with('department')->latest()->get();
+        
         return view('backend.students.index', compact('students'));
     }
 
@@ -32,78 +34,58 @@ class StudentController extends Controller
      */
     public function create()
     {
-        $classes = Grade::latest()->get();
-        $parents = Parents::with('user')->latest()->get();
-
-        return view('backend.students.create', compact('classes', 'parents'));
+        $faculties = Faculty::latest()->get();
+        $departments = Department::latest()->get();
+        $years = $this->getSessions();
+        
+        return view('backend.students.create', compact('faculties', 'departments','years'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        $request->validate([
-            'name'              => 'required|string|max:255',
-            'email'             => 'required|string|email|max:255|unique:users',
-            'password'          => 'required|string|min:8',
-            'parent_id'         => 'required|numeric',
-            'class_id'          => 'required|numeric',
-            'roll_number'       => [
-                'required',
-                'numeric',
-                Rule::unique('students')->where(function ($query) use ($request) {
-                    return $query->where('class_id', $request->class_id);
-                })
-            ],
-            'gender'            => 'required|string',
-            'phone'             => 'required|string|max:255',
-            'dateofbirth'       => 'required|date',
-            'current_address'   => 'required|string|max:255',
-            'permanent_address' => 'required|string|max:255'
+        $data = $this->validate($request,[
+            'name' => 'required|string|max:255',
+            'surname' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'nullable',
+            'program' => 'sometimes',
+            'level' => 'required',
+            'gender' => 'required',
+            'phone' => 'required|max:255',
+            'semester' => 'required|max:255',
+            'dateofbirth' => 'nullable|date',
+            'current_address' => 'nullable|max:255',
+            "state_of_origin" => 'nullable|string',
+            "lga" => 'nullable'
         ]);
-
-        $user = User::create([
-            'name'              => $request->name,
-            'email'             => $request->email,
-            'password'          => Hash::make($request->password)
-        ]);
-
-        if ($request->hasFile('profile_picture')) {
-            $profile = Str::slug($user->name) . '-' . $user->id . '.' . $request->profile_picture->getClientOriginalExtension();
+        
+        if ($request->profile_picture) {
+            $profile = rand(11111,99999) . '.' . $request->profile_picture->getClientOriginalExtension();
             $request->profile_picture->move(public_path('images/profile'), $profile);
         } else {
             $profile = 'avatar.png';
         }
-        $user->update([
-            'profile_picture' => $profile
-        ]);
+        $data['faculty_id'] = Department::with('faculty')->whereId($request->department)->first()->faculty->id;
 
-        $user->student()->create([
-            'parent_id'         => $request->parent_id,
-            'class_id'          => $request->class_id,
-            'roll_number'       => $request->roll_number,
-            'gender'            => $request->gender,
-            'phone'             => $request->phone,
-            'dateofbirth'       => $request->dateofbirth,
-            'current_address'   => $request->current_address,
-            'permanent_address' => $request->permanent_address
-        ]);
+        if ($request->password) {
+            $data['password'] = Hash::make($request->password);
+        } else {
+            $data['password'] = Hash::make(strtoupper($request->surname));
+        }
+        $data['profile'] = $profile;
+       
+        $user = User::create($data);
+       
+        $data['matric'] = $this->generateMatric($user);
+        $data['department_id'] = $request->department;
 
+        $user->student()->create($data);
+        $user->update(['matric' => $data['matric']]) ;
         $user->assignRole('Student');
-
+       
         return redirect()->route('student.index');
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Student  $student
-     * @return \Illuminate\Http\Response
-     */
+    
     public function show(Student $student)
     {
         $class = Grade::with('courses')->where('id', $student->class_id)->first();

@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="roles">
-
-        <div class="flex items-center justify-between mb-6">
+<div class="row">
+    <div class="col-md-12">
+       <div class="flex items-center justify-between mb-6">
             <div>
-                <h2 class="text-gray-700 uppercase font-bold">Create Student</h2>
+                <h2 class="text-gray-700 uppercase font-bold">Add new student</h2>
             </div>
             <div class="flex flex-wrap items-center">
                 <a href="{{ route('student.index') }}" class="bg-gray-200 text-gray-700 text-sm uppercase py-2 px-4 flex items-center rounded">
@@ -14,209 +14,127 @@
                 </a>
             </div>
         </div>
-
-        <div class="table w-full mt-8 bg-white rounded">
-            <form action="{{ route('student.store') }}" method="POST" class="w-full max-w-xl px-6 py-12" enctype="multipart/form-data">
-                @csrf
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Name
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <input name="name" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" value="{{ old('name') }}">
-                        @error('name')
-                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                        @enderror
-                    </div>
-                </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Email
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <input name="email" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="email" value="{{ old('email') }}">
-                        @error('email')
-                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                        @enderror
-                    </div>
-                </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Password
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <input name="password" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="password">
-                        @error('password')
-                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                        @enderror
-                    </div>
-                </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Roll Number
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <input name="roll_number" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="number" value="{{ old('roll_number') }}">
-                        @error('roll_number')
-                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                        @enderror
-                    </div>
-                </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Phone
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <input name="phone" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" value="{{ old('phone') }}">
-                        @error('phone')
-                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                        @enderror
-                    </div>
-                </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Gender
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <div class="flex flex-row items-center">
-                            <label class="block text-gray-500 font-bold">
-                                <input name="gender" class="mr-2 leading-tight" type="radio" value="male">
-                                <span class="text-sm">Male</span>
-                            </label>
-                            <label class="ml-4 block text-gray-500 font-bold">
-                                <input name="gender" class="mr-2 leading-tight" type="radio" value="female">
-                                <span class="text-sm">Female</span>
-                            </label>
-                            <label class="ml-4 block text-gray-500 font-bold">
-                                <input name="gender" class="mr-2 leading-tight" type="radio" value="other">
-                                <span class="text-sm">Other</span>
-                            </label>
-                        </div>
-                        @error('gender')
-                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                        @enderror
-                    </div>
-                </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Date of Birth
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <input name="dateofbirth" id="datepicker-sc" autocomplete="off" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" value="{{ old('dateofbirth') }}">
-                        @error('dateofbirth')
-                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                        @enderror
-                    </div>
-                </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Current Address
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <input name="current_address" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" value="{{ old('current_address') }}">
-                        @error('current_address')
-                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                        @enderror
-                    </div>
-                </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Permanent Address
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <input name="permanent_address" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" value="{{ old('permanent_address') }}">
-                        @error('permanent_address')
-                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                        @enderror
-                    </div>
-                </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Assign Class
-                        </label>
-                    </div>
-                    <div class="md:w-2/3 block text-gray-600 font-bold">
-                        <div class="relative">
-                            <select name="class_id" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
-                                <option value="">--Select Class--</option>
-                                @foreach ($classes as $class)
-                                    <option value="{{ $class->id }}">{{ $class->class_name }}</option>
-                                @endforeach
-                            </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Student Parent
-                        </label>
-                    </div>
-                    <div class="md:w-2/3 block text-gray-600 font-bold">
-                        <div class="relative">
-                            <select name="parent_id" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
-                                <option value="">--Select Parent--</option>
-                                @foreach ($parents as $parent)
-                                    <option value="{{ $parent->id }}">{{ $parent->user->name }}</option>
-                                @endforeach
-                            </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Picture :
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <input name="profile_picture" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="file">
-                    </div>
-                </div>
-
-                <div class="md:flex md:items-center">
-                    <div class="md:w-1/3"></div>
-                    <div class="md:w-2/3">
-                        <button class="shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit">
-                            Create Student
-                        </button>
-                    </div>
-                </div>
-            </form>        
-        </div>
-        
+        <hr>
     </div>
-@endsection
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <h4 style="color:blue">Personal details</h4>
+        <hr>
+        <form autocomplete="off" action="{{ route('student.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" value="{{ old('name') }}" name="name" placeholder="Enter student's name" required>
+            </div>
+            <div class="form-group">
+                <label for="surname">Surname</label>
+                <input type="text" class="form-control" id="surname" value="{{ old('surname') }}" name="surname" placeholder="Enter surname" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" value="{{ old('email') }}" name="email" placeholder="Enter email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password <span style="color:blue">(Leave blank to use surname as password)</span></label>
+                <input type="password" value="{{ old('password') }}" class="form-control" id="password" name="password" placeholder="Enter password">
+            </div>
+            <div class="form-group">
+                <label for="profile_picture">Profile picture</label>
+                <input type="file" class="form-control" id="profile_picture" value="{{ old('profile_picture') }}" name="profile_picture">
+            </div>
+    </div>
 
-@push('scripts')
-<script>
-    $(function() {       
-        $( "#datepicker-sc" ).datepicker({ dateFormat: 'yy-mm-dd' });
-    })
-</script>
-@endpush
+    <div class="col-md-6">
+        <h4 style="color:blue">Academic details</h4>
+        <hr>
+        {{-- <div class="form-group">
+            <label for="faculty">Academic Session</label>
+            <select class="form-control" id="academic_session" name="academic_session">
+                <option>Select</option>
+                @foreach($years as $year=>$value)
+                <option value="{{ $year }}" {{ $faculty->id == old('academic_session') ? 'selected' : ''}}>{{ $faculty->name }}</option>
+                @endforeach
+            </select>
+        </div> --}}
+        <div class="form-group">
+            <label for="program">Select Program</label>
+            <select class="form-control" id="program" name="program">
+                <option>Select</option>
+                <option value="PRE-DEGREE">PRE DEGREE</option>
+                <option value="BSC">BSC</option>
+                <option value="MASTERS">MASTERS</option>
+                <option value="PHD">PHD</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="level">Select Current Level</label>
+            <select class="form-control" id="level" name="level">
+                <option>Select</option>
+                <option value="1">Level 1</option>
+                <option value="2">Level 2</option>
+                <option value="3">Level 3</option>
+                <option value="4">Level 4</option>
+                <option value="5">Level 5</option>
+            </select>
+        </div> 
+        <div class="form-group">
+            <label for="program">Select Semester</label>
+            <select class="form-control" id="semester" name="semester">
+                <option>Select</option>
+                <option value="1">1st Semester</option>
+                <option value="2">2nd Semester</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="faculty">Select Department</label>
+            <select class="form-control" id="department" name="department">
+                <option>Select</option>
+                @foreach($departments as $faculty)
+                <option value="{{ $faculty->id }}" {{ $faculty->id == old('department') ? 'selected' : ''}}>{{ $faculty->name }}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <h4 style="color:blue">Other details</h4>
+        <hr>
+        <div class="form-group">
+                <label for="gender">Gender</label>
+                <select class="form-control" id="gender" name="gender">
+                    <option value="">Select</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>    
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="phone" class="form-control" id="phone" value="{{ old('phone') }}" name="phone" placeholder="Enter phone number">
+            </div>
+            <div class="form-group">
+                <label for="dateofbirth">Date of birth</label>
+                <input type="date" class="form-control" id="dateofbirth" value="{{ old('dateofbirth') }}" name="dateofbirth">
+            </div>
+            <div class="form-group">
+                <label for="current_address">Current address</label>
+                <input type="text" class="form-control" id="current_address" value="{{ old('current_address') }}" name="current_address">
+            </div>
+            
+            <div class="form-group">
+                <label for="state_of_origin">State of Origin</label>
+                <input type="text" class="form-control" id="state_of_origin" value="{{ old('state_of_origin') }}" name="state_of_origin">
+            </div>
+            <div class="form-group">
+                <label for="lga">Lga</label>
+                <input type="text" class="form-control" id="lga" value="{{ old('lga') }}" name="lga">
+            </div>
+    </div>
+    <div class="col-md-12">
+        <button type="submit" class="btn btn-primary" style="width: 100%">Submit</button>
+    </div>
+            
+    </form>
+    </div>
+</div>
+@endsection

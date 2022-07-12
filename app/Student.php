@@ -2,6 +2,10 @@
 
 namespace App;
 
+use App\User;
+use App\Attendance;
+use App\Department;
+use NumberFormatter;
 use Illuminate\Database\Eloquent\Model;
 
 class Student extends Model
@@ -15,7 +19,13 @@ class Student extends Model
         'phone',
         'dateofbirth',
         'current_address',
-        'permanent_address',
+        "program",
+        "level",
+        "semester",
+        "department_id",
+        "faculty_id",
+        "state_of_origin",
+        "lga",
     ];
 
     public function user() 
@@ -23,18 +33,24 @@ class Student extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function parent() 
+    public function department() 
     {
-        return $this->belongsTo(Parents::class);
+        return $this->belongsTo(Department::class);
     }
 
-    public function class() 
+    public function faculty()
     {
-        return $this->belongsTo(Grade::class, 'class_id');
+        return $this->belongsTo(Faculty::class);
     }
 
     public function attendances() 
     {
         return $this->hasMany(Attendance::class);
+    }
+
+    public function getSemesterAttribute($value)
+    {
+        $formatter = new NumberFormatter('en-US', NumberFormatter::ORDINAL);
+        return ucfirst($formatter->format($value));
     }
 }

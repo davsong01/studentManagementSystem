@@ -12,8 +12,14 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     public function getSessions(){
-        $years = array_combine(range(date("Y"), 1910), range(date("Y"), 1910));
-
+        $years = range(date("Y"), 1993);
         return $years;
     }
+
+    public function generateMatric($user)
+    {
+        $matric = 'ACU/' . 'NO' . date("Y"). '/'.'0'.$user->id;
+        return $matric;
+    }
+
 }

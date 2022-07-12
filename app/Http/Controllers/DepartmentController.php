@@ -24,10 +24,12 @@ class DepartmentController extends Controller
 
     public function store(Request $request)
     {
+        
         $data = $this->validate($request, [
             'name' => 'required',
             'faculty' => 'required',
         ]);
+
         $data['faculty_id'] = $data['faculty'];
         Department::create($data);
 

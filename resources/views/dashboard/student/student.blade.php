@@ -1,4 +1,4 @@
-@extends('dashboard.student.index')
+@extends('dashboard.stdent.index')
 @section('page')
  <div class="col-md-9">
     <div class="row">
