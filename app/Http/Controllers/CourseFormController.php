@@ -12,11 +12,7 @@ use Illuminate\Support\Facades\Session;
 
 class CourseFormController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+   
     public function index()
     {
         $courseForms = CourseForm::with('faculty', 'department')->latest()->get();
@@ -24,22 +20,12 @@ class CourseFormController extends Controller
         return view('backend.course_forms.index', compact('courseForms'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $faculties = Faculty::whereHas('courses')->latest()->get();
         $departments = Department::whereHas('courses')->latest()->get();
         $years = $this->getSessions();
       
-        // $unfinished = CourseForm::whereNULL('available_courses')->get();
-        // if($unfinished && $unfinished->count() > 0){
-        //     $unfinished->delete();
-        // }
-        
         return view('backend.course_forms.create', compact('faculties', 'departments', 'years'));
     }
 
@@ -66,6 +52,7 @@ class CourseFormController extends Controller
             'faculty_id' => $faculty_id,
             'semester' => $semester,
             'maximum_units' => $maximum_units,
+            'status' => $request->status,
         ]);
 
         $available = Course::whereProgram($program)
@@ -98,34 +85,29 @@ class CourseFormController extends Controller
             ->with('maximum_units', $newForm->maximum_units);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $this->validate($request, [
             'courses' => 'required',
-            
         ]);
-       
+        // dd($request->all());
         $courses = [];
-
+        $sum = 0;
         foreach($request->courses as $course=>$value){
             $d = Course::whereId($value)->first();
+            $id = $d->id;
             $title = $d->course_title;
             $code = $d->course_code;
             $units = $d->units;
-
+            $sum += $d->units;
             $courses[] = [
+                'id' => $id,
                 'title' => $title,
                 'code' => $code,
                 'units' => $units,
             ];
         }
-       
+    //    dd(json_encode($courses));
         // Check if course form with same department, semester, level and program exists
         CourseForm::whereId($request->id)->update([
             'available_courses' => json_encode($courses)
@@ -134,42 +116,52 @@ class CourseFormController extends Controller
         return redirect(route('courseForm.index'))->with('message', 'Operation successful');
     }
 
+    public function edit(CourseForm $courseForm)
+    {
+        $available = Course::whereProgram($courseForm->program)
+            ->whereLevel($courseForm->level)
+            ->whereSemester((int) $courseForm->semester)
+            ->whereDepartmentId($courseForm->department_id)
+            ->whereFacultyId($courseForm->faculty_id)
+            ->latest()
+            ->get();
+
+        $selected = [];
+        $selected = json_decode($courseForm->available_courses, true);
+        $faculty = Faculty::whereId('$faculty_id')->value('name');
+        $department = Department::whereId($courseForm->department_id)->value('name');
+        if(count($selected) > 0){
+            $selected = array_values(array_column($selected, 'id'));
+        }  
+      
+        return view('backend.course_forms.create2')
+        ->with('available', $available)
+            ->with('program', $courseForm->program)
+            ->with('id', $courseForm->id)
+            ->with('level', $courseForm->level . '00')
+            ->with('session', $courseForm->session)
+            ->with('program', $courseForm->program)
+            ->with('semester', $courseForm->semester)
+            ->with('faculty', $faculty)
+            ->with('department', $department)
+            ->with('selected', $selected)
+            ->with('maximum_units', $courseForm->maximum_units);
+    }
+
     public function show(CourseForm $courseForm)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\CourseForm  $courseForm
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(CourseForm $courseForm)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\CourseForm  $courseForm
-     * @return \Illuminate\Http\Response
-     */
+  
     public function update(Request $request, CourseForm $courseForm)
     {
-        //
+        
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\CourseForm  $courseForm
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(CourseForm $courseForm)
     {
-        //
+        $courseForm->delete();
+        return back()->with('message', 'Operation successfull');
     }
 }

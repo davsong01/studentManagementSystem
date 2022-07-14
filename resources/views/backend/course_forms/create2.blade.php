@@ -83,7 +83,7 @@
                     @foreach($available as $course)
                     <div class="col-md-6">
                         <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="{{ $course->id }}" name="courses[]" value="{{ $course->id }}">
+                            <input type="checkbox" class="form-check-input" id="{{ $course->id }}" name="courses[]" value="{{ $course->id }}" {{ isset($selected) && in_array($course->id, $selected) ? 'checked' : ''}}>
                             <label class="form-check-label" for="{{ $course->id }}">{{ $course->course_title }} | 
                                 <span style="color:blue">{{ $course->course_code }}</spamn> | 
                                 <span style="color:red">{{ $course->units }}units</span> | 

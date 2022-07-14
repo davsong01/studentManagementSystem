@@ -43,6 +43,7 @@ Route::group(['middleware' => ['auth','role:Admin']], function ()
     Route::resource('assignrole', 'RoleAssign');
     Route::resource('classes', 'GradeController');
     Route::resource('course', 'CourseController');
+    Route::resource('payments', 'PaymentsController');
     Route::resource('faculty', 'FacultyController');
     Route::resource('department', 'DepartmentController');
     Route::resource('parents', 'ParentsController');
