@@ -22,4 +22,32 @@ class Controller extends BaseController
         return $matric;
     }
 
+    public function getPrograms(){
+        return [
+            'PRE-DEGREE',
+            'BSC',
+            'MASTERS',
+            'PHD'
+        ];
+    }
+
+    public function getLevels()
+    {
+        return [
+            '1',
+            '2',
+            '3',
+            '4'
+        ];
+    }
+
+    public function getSemesters()
+    {
+        return [
+            '1',
+            '2',
+        ];
+    }
+    
+
 }

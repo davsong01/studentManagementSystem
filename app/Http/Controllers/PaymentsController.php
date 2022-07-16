@@ -43,6 +43,7 @@ class PaymentsController extends Controller
     public function store(Request $request)
     {
         $newPayment = Payments::create([
+            'name' => $request->name,
             'program' => $request->program,
             'level' => $request->level,
             'session' => $request->session,
@@ -51,7 +52,7 @@ class PaymentsController extends Controller
             'semester' => $request->semester,
             'status' => $request->status,
         ]);
-       
+
         return redirect(route('payments.index'))->with('message', 'Operation successfull');
     }
 
@@ -72,9 +73,13 @@ class PaymentsController extends Controller
      * @param  \App\Payments  $payments
      * @return \Illuminate\Http\Response
      */
-    public function edit(Payments $payments)
+    public function edit(Payments $payment)
     {
-        //
+        $faculties = Faculty::latest()->get();
+        $departments = Department::latest()->get();
+        $years = $this->getSessions();
+
+        return view('backend.payments.edit', compact('faculties', 'departments', 'years', 'payment'));
     }
 
     /**
@@ -84,9 +89,21 @@ class PaymentsController extends Controller
      * @param  \App\Payments  $payments
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Payments $payments)
+    public function update(Request $request, Payments $payment)
     {
-        //
+        // dd($request->all());
+        $payment->update([
+            'name' => $request->name,
+            'program' => $request->program,
+            'level' => $request->level,
+            'department_id' => $request->department,
+            'faculty_id' => $request->faculty,
+            'semester' => $request->semester,
+            'status' => $request->status,
+            'amount' => $request->amount,
+        ]);
+        // dd($payment);
+        return redirect(route('payments.index'))->with('message', 'Operation successful');
     }
 
     /**
@@ -95,9 +112,9 @@ class PaymentsController extends Controller
      * @param  \App\Payments  $payments
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Payments $payments)
+    public function destroy(Payments $payment)
     {
-        $payments->delete();
+        $payment->delete();
 
         return back()->with('message', 'Operation successful');
     }

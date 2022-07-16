@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Payments extends Model
 {
-    protected $fillable = ['name', "faculty_id", "department_id", "program", "semester", "level", "status", "type"];
+    protected $fillable = ['name', "faculty_id","amount", "department_id", "program", "semester", "level", "status", "type"];
 
     public function department()
     {

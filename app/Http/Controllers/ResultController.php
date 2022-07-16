@@ -3,25 +3,52 @@
 namespace App\Http\Controllers;
 
 use App\Result;
+use App\Faculty;
 use Illuminate\Http\Request;
 
 class ResultController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function index()
     {
-        //
+        $faculties = Faculty::with('departments')->get();
+        return view('backend.results.index', compact('faculties'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function getDepartmentResults(Request $request)
+    {
+        if(!$request->department || !$request->faculty){
+            return back()->with('warning', 'No Faculty or department selected');
+        }
+
+        $results = Result::with('faculty', 'department')->whereFacultyId($request->faculty)-> whereDepartmentId($request->department)->latest();
+
+        if($request->p){
+            $results->where('program', $request->p);
+        }
+
+        if ($request->l) {
+            $results->where('level', $request->l);
+        }
+
+        if ($request->s) {
+            $results->where('semester', $request->s);
+        }
+
+        if ($request->as) {
+            $results->where('academic_session', $request->as);
+        }
+
+        if($results->count() < 1){
+            return back()->with('warning', 'No data found, select other parameters');
+        }
+
+        $requests = $request->all();
+        $results = $results->get();
+       
+        return view('backend.results.list', compact('requests','results'));
+    }
+
     public function create()
     {
         //

@@ -12,9 +12,7 @@ class Student extends Model
 {
     protected $fillable = [
         'user_id',
-        'parent_id',
-        'class_id',
-        'roll_number',
+        'profile_picture',
         'gender',
         'phone',
         'dateofbirth',
@@ -25,7 +23,16 @@ class Student extends Model
         "department_id",
         "faculty_id",
         "state_of_origin",
+        "matric",
         "lga",
+        "nationality",
+        "current_address",
+        "religion",
+        "nok",
+        "nok_address",
+        "nok_name",
+        "nok_phone",
+        "nok_relationship",
     ];
 
     public function user() 

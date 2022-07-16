@@ -25,6 +25,7 @@
         <thead>
             <tr>
                 <th>S/N</th>
+                <th>Matric</th>
                 <th>Avatar</th>
                 <th>Details</th>
                 <th>Program</th>
@@ -37,11 +38,13 @@
             @foreach($students as $student)
             <tr>
                 <td>{{ $i++ }}</td>
-                <td><img src="{{ asset($student->user->profile_picture ?? '') }}" alt="profile_picture"></td>
+                <td>{{ $student->user->matric }}</td>
+                <td>
+                    <img class="rounded-full mr-2 profile-avatar" style="width: 80px;height:80px" src="{{ asset('images/profile/' . auth()->user()->profile_picture) }}" alt="Avatar">
                 <td>
                     <b>Name: </b>{{ $student->user->name ?? '--'. ' ' . $student->user->surname ?? '--' }} <br>
                     <b>Email: </b>{{ $student->user->email ?? '--'}} <br>
-                    <b>Matric No: </b>{{ $student->user->matric  ?? '--' }}  <br>
+                    {{-- <b>Matric No: </b>{{ $student->user->matric  ?? '--' }}  <br> --}}
                     <b>Current level: </b>Level {{ $student->level.'00'  }}, {{ $student->semester }} Semester
                 </td>
                 <td> 
@@ -53,9 +56,9 @@
                 <td>{{ $student->cgpa ?? '--' }}</td>
                 <td>
                     <a href="{{ route('student.edit',$student->id) }}">
-                       <button type="button" class="btn btn-primary btn-sm"> <i class="fa fa-pencil"></i> Edit</button>
+                       <button type="button" class="btn btn-primary btn-sm" style="margin-bottom: 3px;"> <i class="fa fa-pencil"></i> Edit</button>
                     </a>
-                    
+                    <br>
                     <form action="{{ route('course.destroy',$student->id) }}" method="POST" class="inline-flex ml-1">
                         @csrf
                         @method('DELETE')

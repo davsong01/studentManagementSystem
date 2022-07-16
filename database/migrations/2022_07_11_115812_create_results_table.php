@@ -15,12 +15,19 @@ class CreateResultsTable extends Migration
     {
         Schema::create('results', function (Blueprint $table) {
             $table->id();
-            $table->string('accademic_session');
-            $table->string('semester');
-            $table->string('level'); // 100, 200
-            $table->string('program'); // BSC, MSC, PHD
-            $table->string('cgpa')->nuallable(); // BSC, MSC, PHD
-            $table->string('gpa')->nulable(); // BSC, MSC, PHD
+            $table->string('user_id')->nullable();
+            $table->text('courses')->nullable();
+            $table->string('academic_session')->nullable();
+            $table->string('semester')->nullable();
+            $table->string('department_id')->nullable();
+            $table->string('faculty_id')->nullable();
+            $table->string('level')->nullable();
+            $table->string('program')->nullable();
+            $table->string('cgpa')->nuallable();
+            $table->string('total_score')->nuallable();
+            $table->string('total_units')->nuallable();
+            $table->string('gpa')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

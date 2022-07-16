@@ -101,10 +101,11 @@ class StudentController extends Controller
      */
     public function edit(Student $student)
     {
-        $classes = Grade::latest()->get();
-        $parents = Parents::with('user')->latest()->get();
+        $faculties = Faculty::latest()->get();
+        $departments = Department::latest()->get();
+        $years = $this->getSessions();
 
-        return view('backend.students.edit', compact('classes', 'parents', 'student'));
+        return view('backend.students.edit', compact('student', 'faculties', 'departments', 'years'));
     }
 
     /**
@@ -116,50 +117,48 @@ class StudentController extends Controller
      */
     public function update(Request $request, Student $student)
     {
-        $request->validate([
-            'name'              => 'required|string|max:255',
-            'email'             => 'required|string|email|max:255|unique:users,email,' . $student->user_id,
-            'parent_id'         => 'required|numeric',
-            'class_id'          => 'required|numeric',
-            'roll_number'       => [
-                'required',
-                'numeric',
-                Rule::unique('students')->ignore($student->id)->where(function ($query) use ($request) {
-                    return $query->where('class_id', $request->class_id);
-                })
-            ],
-            'gender'            => 'required|string',
-            'phone'             => 'required|string|max:255',
-            'dateofbirth'       => 'required|date',
-            'current_address'   => 'required|string|max:255',
-            'permanent_address' => 'required|string|max:255'
-        ]);
+        // dd($request->all());
 
-        if ($request->hasFile('profile_picture')) {
-            $profile = Str::slug($student->user->name) . '-' . $student->user->id . '.' . $request->profile_picture->getClientOriginalExtension();
+        if ($request->profile_picture) {
+            $profile = rand(11111, 99999) . '.' . $request->profile_picture->getClientOriginalExtension();
             $request->profile_picture->move(public_path('images/profile'), $profile);
-        } else {
-            $profile = $student->user->profile_picture;
+        }
+      
+        $request['faculty_id'] = Department::with('faculty')->whereId($request->department)->first()->faculty->id;
+        if ($request->password) {
+            $request['password'] = Hash::make($request->password);
+        } else{
+             $request['password'] = $student->user->password;
         }
 
-        $student->user()->update([
-            'name'              => $request->name,
-            'email'             => $request->email,
-            'profile_picture'   => $profile
-        ]);
+        $request['department_id'] = $request->department;
 
-        $student->update([
-            'parent_id'         => $request->parent_id,
-            'class_id'          => $request->class_id,
-            'roll_number'       => $request->roll_number,
-            'gender'            => $request->gender,
-            'phone'             => $request->phone,
-            'dateofbirth'       => $request->dateofbirth,
-            'current_address'   => $request->current_address,
-            'permanent_address' => $request->permanent_address
-        ]);
-
-        return redirect()->route('student.index');
+        $student->user()->update($request->only(['name', 'email', 'password', 'profile_picture', 'surname', 'matric']));
+       
+        $student->update($request->only([
+            'profile_picture',
+            'gender',
+            'phone',
+            'dateofbirth',
+            'current_address',
+            "program",
+            "level",
+            "semester",
+            "department_id",
+            "faculty_id",
+            "state_of_origin",
+            "matric",
+            "lga",
+            "nationality",
+            "religion",
+            "nok",
+            "nok_address",
+            "nok_name",
+            "nok_phone",
+            "nok_relationship",
+        ]));
+        dd($student);
+        return redirect()->route('student.index')->with('message', 'Operation successful');
     }
 
     /**

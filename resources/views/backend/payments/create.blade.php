@@ -25,7 +25,10 @@
                 <label for="name">Name of payment</label>
                 <input type="text" class="form-control" id="name" value="{{ old('name') }}" name="name" placeholder="Enter payment name, e.g. School fees" required>
             </div>
-           
+           <div class="form-group">
+                <label for="amount">Amount charged</label>
+                <input type="number" class="form-control" id="amount" value="{{ old('amount') }}" name="amount" placeholder="Enter payment amount" required>
+            </div>
             <div class="form-group">
                 <label for="faculty">Select Faculty</label>
                 <select class="form-control" id="faculty" name="faculty" required>

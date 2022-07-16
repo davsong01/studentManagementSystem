@@ -25,8 +25,11 @@
         <thead>
             <tr>
                 <th>S/N</th>
+                <th>Name</th>
+                <th>Amount</th>
                 <th>Session</th>
-                <th>Faculty</th>
+                <th>Class</th>
+                <th>Status</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -34,8 +37,13 @@
             @foreach($payments as $payment)
             <tr>
                 <td>{{ $i++ }}</td>
-                 <td><strong>{{ $payment->program != 0 ? $payment->program : 'All Programs'}}, </strong>{{ $payment->session != 0 ? $payment->session : 'All Sessions'}}, {{ $payment->level != 0 ? $payment->level.'00 level' : 'All levels' }}, <br>{{ $payment->semester != 0 ? $payment->semester : 'All semesters' }} Semester</td>
-                <td><small>{{ $payment->faculty->name ?? 'All Faculties' }}</small></td>
+                <td>{{ $payment->name }}</td>
+                <td>&#8358;{{ number_format($payment->amount) }}</td>
+                 <td><strong>{{ $payment->program != '0' ? $payment->program : 'All Programs'}}, </strong>{{ $payment->level != '0' ? $payment->level.'00 level' : 'All levels' }}, <br>{{ $payment->semester != 0 ? $payment->semester .' Semester' : 'All semesters' }}</td>
+                <td><small><strong>Faculty:</strong> {{ $payment->faculty->name ?? 'All Faculties' }} <br>
+                    <strong>Department:</strong> {{ $payment->department->name ?? 'All Departments' }}
+                </small></td>
+                <td>{{ ucfirst($payment->status) }}</td>
                 <td>
                     <a href="{{ route('payments.edit',$payment->id) }}">
                        <button type="button" class="btn btn-primary btn-sm"> <i class="fa fa-pencil"></i> Edit</button>

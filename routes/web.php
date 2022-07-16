@@ -44,7 +44,11 @@ Route::group(['middleware' => ['auth','role:Admin']], function ()
     Route::resource('classes', 'GradeController');
     Route::resource('course', 'CourseController');
     Route::resource('payments', 'PaymentsController');
+    Route::resource('setting', 'SettingController');
     Route::resource('faculty', 'FacultyController');
+    Route::resource('transaction', 'TransactionController');
+    Route::resource('result', 'ResultController');
+    Route::get('result-faculty/{faculty?}/{dept?}/{l?}/{s?}/{p?}/{as?}', 'ResultController@getDepartmentResults')->name('result.faculty');
     Route::resource('department', 'DepartmentController');
     Route::resource('parents', 'ParentsController');
     Route::resource('student', 'StudentController');

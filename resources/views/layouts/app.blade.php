@@ -20,6 +20,29 @@
         .flex.items-center.text-gray-600.py-2.hover\:text-blue-700 {
             text-decoration: none;
         }
+        .text-gray-600 {
+            color: black !important;
+        }
+        .active {
+            border: none;
+            outline: none;
+            color: #007bff !important;
+            cursor: pointer;
+        }
+
+        .active:hover {
+            color: #4b8acc !important;
+        }
+
+        .profile-avatar{
+            width: 150px;
+            height: 150px;
+            border: 2px solid #2b6cb0;
+        }
+        .required{
+            color:red
+        }
+        
     </style>
     @yield('css')
 </head>
@@ -56,20 +79,6 @@
     <script>
         $(document).ready(function () {
             $('#example').DataTable({
-                // columnDefs: [
-                //     {
-                //         targets: [0],
-                //         orderData: [0, 1],
-                //     },
-                //     {
-                //         targets: [1],
-                //         orderData: [1, 0],
-                //     },
-                //     {
-                //         targets: [3],
-                //         orderData: [3, 0],
-                //     },
-                // ],
             });
         });
     </script>
