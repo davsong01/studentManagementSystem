@@ -48,6 +48,14 @@ class Controller extends BaseController
             '2',
         ];
     }
+
+    public function calculateGpa(){
+        return;
+    }
+
+    public function calculateCgpa(){
+        return;
+    }
     
 
 }

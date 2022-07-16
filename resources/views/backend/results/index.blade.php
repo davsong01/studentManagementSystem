@@ -7,7 +7,6 @@
             <div>
                 <h2 class="text-gray-700 uppercase font-bold">Upload results</h2>
             </div>
-            
         </div>
         <hr>
     </div>
@@ -65,7 +64,7 @@
                         <select class="form-control" id="as" name="as" {{ isset($faculty->departments) && $faculty->departments->count() < 1 ? 'disabled' : '' }}>
                             <option value="">Select...</option>
                             @foreach(app('App\Http\Controllers\Controller')->getSessions() as $sessions)
-                            <option value="{{ $sessions }}/{{ $sessions + 1 }}">{{ $sessions }}/{{ $sessions + 1 }}</option>
+                            <option value="{{ $sessions }}">{{ $sessions }}/{{ $sessions + 1 }}</option>
                             @endforeach
                         </select>
                     </div>

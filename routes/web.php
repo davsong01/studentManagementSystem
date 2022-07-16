@@ -55,6 +55,7 @@ Route::group(['middleware' => ['auth','role:Admin']], function ()
     Route::resource('courseForm', 'CourseFormController');
     Route::post('show-available-courses', 'CourseFormController@showAvailableCourses')->name('available.courses');
     Route::get('attendance', 'AttendanceController@index')->name('attendance.index');
+    Route::post('/publish-result', "ResultController@publishResult")->name('publis.result');
 });
 
 Route::group(['middleware' => ['auth','role:Teacher']], function () 
