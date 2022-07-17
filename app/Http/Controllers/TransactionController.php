@@ -14,26 +14,42 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $courses = Transaction::with('user', 'faculty','department')->latest()->get();
-        return view('backend.transaction.index', compact('courses'));
+        $transactions = Transaction::with('user', 'faculty','department')->latest()->get();
+        return view('backend.transaction.index', compact('transactions'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function getTransaction($reference){
+        $year = explode("-", $reference);
+        $year = $year[0];
+        if($year[0] === date('Y')){
+            $transaction = Transaction::whereReference($reference)->first();
+        }else{
+            $transaction = \DB::table('transactions_2021')->where('reference', $reference)->first();
+        }
+        return $transaction;
+    }
+
+    public function updateTransaction($reference, $status)
+    {
+        $years = explode("-", $reference);
+        $year = $years[0];
+        try {
+            if ($year === date('Y')) {
+                $transaction = Transaction::whereReference($reference)->first()->update(['status' => $status]);
+            } else {
+                $transaction = \DB::table('transactions_2021')->where('reference', $reference)->update(['status' => $status]);
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+        
+        return;
+    }
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         //

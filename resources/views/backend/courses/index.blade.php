@@ -40,8 +40,8 @@
                 <td>{{ $i++ }}</td>
                 <td>{{ $course->course_code }}</td>
                 <td>{{ $course->course_title }}</td>
-                <td>{{ $course->faculty->name }}</td>
-                <td>{{ $course->department->name }}</td>
+                <td>{{ $course->faculty->name ?? '--' }}</td>
+                <td>{{ $course->department->name ?? '--'}}</td>
                 <td>{{ $course->level.'00' }}</td>
                 <td>{{ $course->semester }}</td>
                 <td>

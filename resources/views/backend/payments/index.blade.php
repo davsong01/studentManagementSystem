@@ -39,7 +39,7 @@
                 <td>{{ $i++ }}</td>
                 <td>{{ $payment->name }}</td>
                 <td>&#8358;{{ number_format($payment->amount) }}</td>
-                 <td><strong>{{ $payment->program != '0' ? $payment->program : 'All Programs'}}, </strong>{{ $payment->level != '0' ? $payment->level.'00 level' : 'All levels' }}, <br>{{ $payment->semester != 0 ? $payment->semester .' Semester' : 'All semesters' }}</td>
+                <td><strong>{{ $payment->program != '0' ? $payment->program : 'All Programs'}}, </strong>{{ $payment->level != '0' ? $payment->level.'00 level' : 'All levels' }}, <br>{{ $payment->semester != 0 ? $payment->semester .' Semester' : 'All semesters' }}</td>
                 <td><small><strong>Faculty:</strong> {{ $payment->faculty->name ?? 'All Faculties' }} <br>
                     <strong>Department:</strong> {{ $payment->department->name ?? 'All Departments' }}
                 </small></td>

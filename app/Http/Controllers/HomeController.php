@@ -3,14 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Grade;
+use App\Course;
+use App\Result;
+use App\Faculty;
 use App\Parents;
 use App\Student;
 use App\Teacher;
+use App\CourseForm;
+
+use App\Department;
+use App\Transaction;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
-use Illuminate\Support\Str;
 
 class HomeController extends Controller
 {
@@ -51,9 +57,9 @@ class HomeController extends Controller
 
             return view('home', compact('parents'));
         } elseif ($user->hasRole('Student')) {
-
-            $student = Student::with(['user', 'parent', 'class', 'attendances'])->findOrFail($user->student->id);
-
+           
+            $student = Student::with(['user'])->findOrFail($user->student->id);
+           
             return view('home', compact('student'));
         } else {
             return 'NO ROLE ASSIGNED YET!';
@@ -68,39 +74,146 @@ class HomeController extends Controller
         return view('profile.index');
     }
 
-    public function profileEdit()
+    public function profileEdit(Student $student)
     {
-        return view('profile.edit');
+        $faculties = Faculty::latest()->get();
+        $departments = Department::latest()->get();
+        $years = $this->getSessions();
+        $title = 'Edit biodata';
+        return view('profile.edit', compact('student','faculties','departments','years','title'));
     }
 
-    public function profileUpdate(Request $request)
+    public function profileUpdate(Request $request, Student $student)
     {
-        $request->validate([
-            'name'  => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . auth()->id()
+        
+        $data = $this->validate($request, [
+            "name" => "required",
+            "middle_name" => "required",
+            "surname" => "required",
+            "password" => "nullable",
+            "gender" => "required",
+            "phone" => "required",
+            "dateofbirth" => "required",
+            "current_address" => "required",
+            "nationality" => "required",
+            "state_of_origin" => "required",
+            "lga" => "required",
+            "religion" => "required",
+            "nok_name" => "required",
+            "nok_phone" => "required",
+            "nok_address" => "required",
+            "nok_relationship" => "required",
         ]);
 
-        if ($request->hasFile('profile_picture')) {
-            $profile = Str::slug(auth()->user()->name) . '-' . auth()->id() . '.' . $request->profile_picture->getClientOriginalExtension();
-            $request->profile_picture->move(public_path('images/profile'), $profile);
-        } else {
-            $profile = 'avatar.png';
+        if ($request->profile_picture) {
+            $imageName = uniqid(9) . '.' .  $request->profile_picture->getClientOriginalExtension();
+            $request->profile_picture->move(public_path('images/profile'), $imageName);
+            $data['profile_picture'] = $imageName;
         }
 
-        $user = auth()->user();
-
-        $user->update([
-            'name'              => $request->name,
-            'email'             => $request->email,
-            'profile_picture'   => $profile
+        if ($request->password) {
+            $data['password'] = Hash::make($request->password);
+        } else {
+            $data['password'] = $student->user->password;
+        }
+        $data['locked'] = 1;
+        
+        $student->update($data);
+        $student->user()->update([
+            'name' => $data['name'],
+            'profile_picture' => $data['profile_picture'],
+            'surname' => $data['surname'],
+            'middle_name' => $data['middle_name'],
+            'password' => $data['password'],
         ]);
-
-        return redirect()->route('profile');
+       
+        return redirect()->route('home')->with('message', 'Operation successful');
     }
 
-    /**
-     * CHANGE PASSWORD
-     */
+    public function viewCourseForm(Student $student){
+       
+        $c = CourseForm::whereProgram($student->program)
+            ->whereLevel($student->level)
+                ->whereSession(\App\Setting::value('current_session'))
+                    ->whereDepartmentId($student->department_id)
+                        ->whereFacultyId($student->faculty_id)
+                            ->whereSemester((int) $student->semester)
+                            ->whereStatus('published')
+                                ->first();
+        $title = 'Course Form';
+        
+        $available = json_decode($c->available_courses);
+        $maximum_unit = $c->maximum_units;
+        return view('dashboard.student.course_form', compact('available','student','title','c', 'maximum_unit'));
+
+    }
+
+    public function updateCourseForm(Student $student, Request $request){
+        // Check if student has previously filled course form for this semester
+        if ($this->checkDuplicateResult($student)) {
+            return back()->with('warning', 'You cannot select more than one course for this semster');
+        }
+
+        if(!$request->courses){
+            return back()->with('warning', 'You must select at least one course to register');
+        }
+       
+        $courses = [];
+        $sum = 0;
+        foreach ($request->courses as $course => $value) {
+            $d = Course::whereId($value)->first();
+            $id = $d->id;
+            $title = $d->course_title;
+            $code = $d->course_code;
+            $units = $d->units;
+            $type = $d->type;
+            $sum += $d->units;
+            $courses[] = [
+                'id' => $id,
+                'title' => $title,
+                'code' => $code,
+                'units' => $units,
+                'type' => $type,
+                'score' => 0,
+            ];
+        }
+
+        $maximum_unit = CourseForm::whereId($request->id)->first();
+        $maximum_unit = $maximum_unit->maximum_units;
+        
+        if($sum > $maximum_unit){
+            return back()->with('warning', 'You cannot select courses of more than a cummulative of '.$maximum_unit);
+        }
+        Result::create([
+            'user_id' => auth()->user()->id,
+            'student_id' => $student->id,
+            'courses' => json_encode($courses),
+            'academic_session' => \App\Setting::value('current_session'),
+            'semester' => (int) $student->semester,
+            'department_id' => $student->department_id,
+            'faculty_id' => $student->faculty_id,
+            'level' => $student->level,
+            'program' => $student->program,
+            'total_units' => $sum,
+            'maximum_units' => $maximum_unit,
+        ]);
+
+        return redirect(route('home'))->with('message', 'Course form successfully submitted');
+    }
+
+    public function printCourseForm($id){
+        $result = Result::find($id);
+        $mycourses = json_decode($result->courses);
+        
+        return view('dashboard.student.print_course_form', compact('result', 'mycourses'));
+    }
+
+    public function singlePayment($id){
+       
+        $payment = Transaction::find($id);
+       
+        return view('dashboard.student.single-payment', compact('payment'));
+    }
     public function changePasswordForm()
     {
         return view('profile.changepassword');

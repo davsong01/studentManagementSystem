@@ -29,7 +29,7 @@
         <hr>
     </div>
 </div>
-<form action="{{ route('courseForm.store') }}" method="POST">
+<form action="{{ route('courseForm.store') }}" onSubmit="return confirm('This course form will be available to students');" method="POST">
 <div class="row">
     <div class="col-md-4">
         <div>
@@ -70,27 +70,42 @@
         </div>
         <div class="form-group">
             <label for="maximum_units">Maximum number of units</label>
-            <input class="form-control" type="number" name="maximum_units" id="maximum_units" value="{{ $maximum_units}}" readonly>
+            <input class="form-control" type="number" name="maximum_units" id="maximum_units" value="{{ $maximum_units}}">
         </div>
     </div>
     <div class="col-md-8">
         <div>
              <h5 style="display:inline-block">Available Courses</h5>
             <hr>
+            <div>
+                <label style="padding:10px"> <strong>Total Units selected: <span id="total">{{ $total ?? 0}}</span> </strong> </label>
+            </div>
             <div id="available-courses">
                 <div class="row">
                     @if(isset($available) && $available->count() > 0)
                     @foreach($available as $course)
                     <div class="col-md-6">
                         <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="{{ $course->id }}" name="courses[]" value="{{ $course->id }}" {{ isset($selected) && in_array($course->id, $selected) ? 'checked' : ''}}>
+                            <input type="checkbox" class="form-check-input courses" id="{{ $course->id }}" name="courses[]" value="{{ $course->id }}" {{ isset($selected) && in_array($course->id, $selected) ? 'checked' : ''}}>
                             <label class="form-check-label" for="{{ $course->id }}">{{ $course->course_title }} | 
                                 <span style="color:blue">{{ $course->course_code }}</spamn> | 
                                 <span style="color:red">{{ $course->units }}units</span> | 
-                                <span style="color:green"> {{ $course->type }}</span>
+                                <span style="color:green">{{ $course->type }}</span>
                             </label>
                         </div>
                     </div>
+                    <script>
+                        $("#{{ $course->id }}").change(function() {
+                            var total = parseInt($("#total").text());
+                            if(this.checked) {
+                                total += {{ $course->units }};
+                            console.log(total); //Do stuff
+                            }else{
+                                total -= {{ $course->units }};
+                            }
+                            $("#total").text(total);
+                        });
+                    </script>
                     @endforeach
                     @endif
                 </div>
@@ -109,3 +124,6 @@
 </form>
 
 @endsection
+@section('scripts')
+@endsection
+

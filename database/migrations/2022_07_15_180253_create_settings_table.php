@@ -24,6 +24,8 @@ class CreateSettingsTable extends Migration
             $table->string('PAYSTACK_SECRET_KEY')->nullable();
             $table->string('PAYSTACK_PAYMENT_URL')->nullable();
             $table->string('MERCHANT_EMAIL')->nullable();
+            $table->string('logo')->nullable();
+
             $table->timestamps();
         });
     }

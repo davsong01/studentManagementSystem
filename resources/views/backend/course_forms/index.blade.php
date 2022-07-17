@@ -36,7 +36,7 @@
             <tr>
                 <td>{{ $i++ }}</td>
                 <td><strong>{{ $course->program }}, </strong>{{ $course->session }}, {{ $course->level }}00 level, <br>{{ $course->semester }} Semester</td>
-                <td><small>{{ $course->faculty->name }}, <br> Department of {{ $course->department->name }}</small></td>
+                <td><small>@if($course->faculty && $course->department){{ $course->faculty->name }}, <br> Department of {{ $course->department->name }} @endif</small></td>
                 <td>{{ $course->semester }} Semester</td>
                
                 <td>

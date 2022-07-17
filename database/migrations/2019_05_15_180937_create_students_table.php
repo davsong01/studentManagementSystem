@@ -16,6 +16,7 @@ class CreateStudentsTable extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
+            $table->string('locked')->default(0);
             $table->unsignedBigInteger('department_id')->nullable();
             $table->unsignedBigInteger('faculty_id')->nullable();
             $table->enum('gender', ['male', 'female', 'other'])->nullable();

@@ -58,13 +58,13 @@ class StudentController extends Controller
             "state_of_origin" => 'nullable|string',
             "lga" => 'nullable'
         ]);
-        
+
         if ($request->profile_picture) {
-            $profile = rand(11111,99999) . '.' . $request->profile_picture->getClientOriginalExtension();
-            $request->profile_picture->move(public_path('images/profile'), $profile);
-        } else {
-            $profile = 'avatar.png';
+            $imageName = uniqid(9) . '.' .  $request->profile_picture->getClientOriginalExtension();
+            $request->profile_picture->move(public_path('images/profile'), $imageName);
+            $profile = $imageName;
         }
+
         $data['faculty_id'] = Department::with('faculty')->whereId($request->department)->first()->faculty->id;
 
         if ($request->password) {
@@ -77,10 +77,11 @@ class StudentController extends Controller
         $user = User::create($data);
        
         $data['matric'] = $this->generateMatric($user);
+        $user->update(['matric' => $data['matric']]);
         $data['department_id'] = $request->department;
 
         $user->student()->create($data);
-        $user->update(['matric' => $data['matric']]) ;
+  
         $user->assignRole('Student');
        
         return redirect()->route('student.index');
@@ -93,12 +94,6 @@ class StudentController extends Controller
         return view('backend.students.show', compact('class', 'student'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Student  $student
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Student $student)
     {
         $faculties = Faculty::latest()->get();
@@ -107,21 +102,15 @@ class StudentController extends Controller
 
         return view('backend.students.edit', compact('student', 'faculties', 'departments', 'years'));
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Student  $student
-     * @return \Illuminate\Http\Response
-     */
+    
     public function update(Request $request, Student $student)
     {
         // dd($request->all());
 
         if ($request->profile_picture) {
-            $profile = rand(11111, 99999) . '.' . $request->profile_picture->getClientOriginalExtension();
-            $request->profile_picture->move(public_path('images/profile'), $profile);
+            $imageName = uniqid(9) . '.' .  $request->profile_picture->getClientOriginalExtension();
+            $request->profile_picture->move(public_path('images/profile'), $imageName);
+            $request['profile_picture'] = $imageName;
         }
       
         $request['faculty_id'] = Department::with('faculty')->whereId($request->department)->first()->faculty->id;
@@ -136,7 +125,6 @@ class StudentController extends Controller
         $student->user()->update($request->only(['name', 'email', 'password', 'profile_picture', 'surname', 'matric']));
        
         $student->update($request->only([
-            'profile_picture',
             'gender',
             'phone',
             'dateofbirth',
@@ -157,16 +145,10 @@ class StudentController extends Controller
             "nok_phone",
             "nok_relationship",
         ]));
-        dd($student);
+      
         return redirect()->route('student.index')->with('message', 'Operation successful');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Student  $student
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Student $student)
     {
         $user = User::findOrFail($student->user_id);

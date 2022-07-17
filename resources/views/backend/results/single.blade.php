@@ -34,7 +34,7 @@
         <hr>
     </div>
 </div>
-<form onsubmit="confirm('Clicking OK will make this result available to the student, make sure you have cross checked your input')" action="{{ route('result.update', $result->id) }}" method="POST">
+<form onSubmit="return confirm('Clicking OK will make this result available to the student, make sure you have cross checked your input');" action="{{ route('result.update', $result->id) }}" method="POST">
     @csrf
     @method('patch')
     <input type="hidden" name="pram" value="{{ $pram }}">

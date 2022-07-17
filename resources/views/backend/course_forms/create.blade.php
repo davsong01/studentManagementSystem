@@ -47,24 +47,22 @@
             </select>
         </div>
         <div class="form-group">
-            <label for="program">Select Program</label>
-            <select class="form-control" id="program" name="program" required>
-                <option>Select</option>
-                <option value="PRE-DEGREE" {{ old('program') == 'PRE-DEGREE' ? 'selected' : ''}}>PRE DEGREE</option>
-                <option value="BSC" {{ old('program') == 'BSC' ? 'selected' : ''}}>BSC</option>
-                <option value="MASTERS" {{ old('program') == 'MASTERS' ? 'selected' : ''}}>MASTERS</option>
-                <option value="PHD" {{ old('program') == 'PHD' ? 'selected' : ''}}>PHD</option>
+            <label for="type">Select Program</label>
+            <select class="form-control" id="program" name="program" {{ isset($faculty->departments) && $faculty->departments->count() < 1 ? 'disabled' : '' }}>
+                <option value="">Select...</option>
+                @foreach(app('App\Http\Controllers\Controller')->getPrograms() as $program)
+                <option value="{{ $program }}">{{ $program }}</option>
+                @endforeach
             </select>
         </div>
         <div class="form-group">
             <label for="level">Select Level</label>
-            <select class="form-control" id="level" name="level" required>
-                <option>Select</option>
-                <option value="1" {{ old('level') == '1' ? 'selected' : ''}}>Level 1</option>
-                <option value="2" {{ old('level') == '2' ? 'selected' : ''}}>Level 2</option>
-                <option value="3" {{ old('level') == '3' ? 'selected' : ''}}>Level 3</option>
-                <option value="4" {{ old('level') == '4' ? 'selected' : ''}}>Level 4</option>
-                <option value="5" {{ old('level') == '5' ? 'selected' : ''}}>Level 5</option>
+            <label for="type">Select Level</label>
+            <select class="form-control" id="level" name="level" {{ isset($faculty->departments) && $faculty->departments->count() < 1 ? 'disabled' : '' }}>
+                <option value="">Select...</option>
+                @foreach(app('App\Http\Controllers\Controller')->getLevels() as $level)
+                <option value="{{ $level }}">{{ $level }}00</option>
+                @endforeach
             </select>
         </div>
         <div class="form-group">

@@ -51,24 +51,28 @@
         </a>
         @endrole
         @role('Student')
-        
-        <a href="{{ route('home') }}" class="flex items-center text-gray-600 py-2 hover:text-blue-700">
-            <i class="fa fa-book"></i>
-            <span class="ml-2 text-sm font-semibold">Courses management</span>
+
+        <a href="{{ route('results.list') }}" class="flex items-center text-gray-600 py-2 hover:text-blue-700">
+            <i class="fa fa-certificate"></i>
+            <span class="ml-2 text-sm font-semibold">Results</span>
         </a>
         <a href="{{ route('home') }}" class="flex items-center text-gray-600 py-2 hover:text-blue-700">
-            <svg class="h-4 w-4 fill-current feather feather-grid" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-            <span class="ml-2 text-sm font-semibold">Results management</span>
-        </a>
-        <a href="{{ route('home') }}" class="flex items-center text-gray-600 py-2 hover:text-blue-700">
-            <svg class="h-4 w-4 fill-current feather feather-grid" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            <i class="fa fa-list"></i>
             <span class="ml-2 text-sm font-semibold">Study materials</span>
         </a>
-        <a href="{{ route('home') }}" class="flex items-center text-gray-600 py-2 hover:text-blue-700">
-            <svg class="h-4 w-4 fill-current feather feather-grid" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-            <span class="ml-2 text-sm font-semibold">Study materials</span>
+        <a href="{{ route('gp.cal1') }}" class="flex items-center text-gray-600 py-2 hover:text-blue-700">
+            <i class="fa fa-certificate"></i>
+            <span class="ml-2 text-sm font-semibold">GP Calculator</span>
+        </a>
+        <a href="{{ route('payments.history') }}" class="flex items-center text-gray-600 py-2 hover:text-blue-700">
+            <i class="fa fa-money"></i>
+            <span class="ml-2 text-sm font-semibold">Payment history</span>
         </a>
         
+        {{-- <a href="{{ route('results.list') }}" class="flex items-center text-gray-600 py-2 hover:text-blue-700">
+            <i class="fa fa-certificate"></i>
+            <span class="ml-2 text-sm font-semibold">CGP Calculator</span>
+        </a> --}}
         @endrole
     </div>
 </div>

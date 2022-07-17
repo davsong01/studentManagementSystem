@@ -36,7 +36,6 @@ class CourseFormController extends Controller
         $semester = $request->semester;
         $department = $request->department;
         $maximum_units = $request->maximum_units;
-       
         $faculty_id = Department::with('faculty')->whereId($request->department)->first()->faculty->id;
 
         $unfinished = CourseForm::whereNULL('available_courses')->first();
@@ -99,18 +98,24 @@ class CourseFormController extends Controller
             $title = $d->course_title;
             $code = $d->course_code;
             $units = $d->units;
+            $type = $d->type;
             $sum += $d->units;
             $courses[] = [
                 'id' => $id,
                 'title' => $title,
                 'code' => $code,
                 'units' => $units,
+                'type' => $type,
             ];
         }
-    //    dd(json_encode($courses));
+        // Check if maximum units = selected courses
+        if($request->maximum_units != $sum){
+            return back()->with('error','Selected course units does not match maximum units entered');
+        }
         // Check if course form with same department, semester, level and program exists
         CourseForm::whereId($request->id)->update([
-            'available_courses' => json_encode($courses)
+            'available_courses' => json_encode($courses),
+            'maximum_units' => $sum,
         ]);
         
         return redirect(route('courseForm.index'))->with('message', 'Operation successful');
@@ -128,12 +133,21 @@ class CourseFormController extends Controller
 
         $selected = [];
         $selected = json_decode($courseForm->available_courses, true);
+        $total = !empty($selected) ? array_sum(array_column($selected, 'units')) : 0;
         $faculty = Faculty::whereId('$faculty_id')->value('name');
         $department = Department::whereId($courseForm->department_id)->value('name');
+        if(!isset($selected)){
+            $faculties = Faculty::whereHas('courses')->latest()->get();
+            $departments = Department::whereHas('courses')->latest()->get();
+            $years = $this->getSessions();
+
+            return view('backend.course_forms.create', compact('faculties', 'departments', 'years'));
+        }
+        
         if(count($selected) > 0){
             $selected = array_values(array_column($selected, 'id'));
         }  
-      
+        
         return view('backend.course_forms.create2')
         ->with('available', $available)
             ->with('program', $courseForm->program)
@@ -145,7 +159,8 @@ class CourseFormController extends Controller
             ->with('faculty', $faculty)
             ->with('department', $department)
             ->with('selected', $selected)
-            ->with('maximum_units', $courseForm->maximum_units);
+            ->with('maximum_units', $courseForm->maximum_units)
+            ->with('total', $total);
     }
 
     public function show(CourseForm $courseForm)

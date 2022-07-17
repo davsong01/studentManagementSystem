@@ -1,5 +1,3 @@
-
-
 @extends('layouts.app')
 
 @section('content')
@@ -20,24 +18,35 @@
             <?php $i = 1; ?>
         <thead>
             <tr>
-                <th>S/N</th>
-                <th>Transaction ID</th>
-                <th>Reference</th>
-                <th>Student details</th>
-                <th>Payment details</th>
-                <th>Other details</th>
+                <th>#</th>
+                <th>Details</th>
+                <th>Payment</th>
+                <th>Academic session</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($courses as $course)
+            @foreach($transactions as $transaction)
             <tr>
                 <td>{{ $i++ }}</td>
-                <td>{{ $course->course_code }}</td>
-                <td>{{ $course->course_title }}</td>
-                <td>{{ $course->faculty->name }}</td>
-                <td>{{ $course->department->name }}</td>
-                <td>{{ $course->department->name }}</td>
-                
+                <td>
+                    <b>Matric:</b>{{ $transaction->user->matric ?? 'Not set' }} <br>
+                    <b>Department:</b>{{ $transaction->department->name ?? 'Not set' }} <br>
+                    <b>Faculty:</b>{{ $transaction->faculty->name ?? 'Not set' }}
+                </td>
+                <td>{{ $transaction->name }} <br><small> <b>Reference:</b> {{ $transaction->reference }}</small> </td>
+                <td>{{ $transaction->session }}</td>
+                <td>&#8358;{{ number_format($transaction->amount) }}</td>
+                <td>{{ $transaction->created_at }}</td>
+                <td>{{ $transaction->status }}</td>
+                <td>
+                    <a class="btn btn-primary btn-sm" href="{{ route('payments.show', $transaction->id) }}" target="_blank" data-toggle="tooltip">
+                        <i class="fa fa-eye"> Print</i>
+                    </a>
+                </td>
             </tr>
             @endforeach
     </table>

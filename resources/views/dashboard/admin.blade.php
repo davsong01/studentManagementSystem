@@ -1,22 +1,80 @@
-<div class="w-full block mt-8">
-    <div class="flex flex-wrap sm:flex-no-wrap justify-between">
-        <div class="w-full bg-gray-200 text-center border border-gray-300 px-8 py-6 rounded">
-            <h3 class="text-gray-700 uppercase font-bold">
-                <span class="text-4xl">{{ sprintf("%02d", count($parents)) }}</span>
-                <span class="leading-tight">Parents</span>
-            </h3>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3 col-sm-4">
+            <a class="no-decoration" href="{{ route('faculty.index') }}">
+            <div class="card w-full bg-gray-200 text-center border border-gray-300 px-8 py-6 rounded">
+                <h3 class="text-gray-700 uppercase font-bold">
+                    <span class="text-4xl">{{ \App\Faculty::count() }}</span>
+                    <span class="leading-tight">Faculties</span>
+                </h3>
+            </div>
+            </a>
         </div>
-        <div class="w-full bg-gray-200 text-center border border-gray-300 px-8 py-6 mx-0 sm:mx-6 my-4 sm:my-0 rounded">
-            <h3 class="text-gray-700 uppercase font-bold">
-                <span class="text-4xl">{{ sprintf("%02d", count($teachers)) }}</span>
-                <span class="leading-tight">Teachers</span>
-            </h3>
+        <div class="col-md-3 col-sm-4">
+            <a class="no-decoration" href="{{ route('department.index') }}">
+            <div class="card w-full bg-gray-200 text-center border border-gray-300 px-8 py-6 rounded">
+                <h3 class="text-gray-700 uppercase font-bold">
+                    <span class="text-4xl">{{ \App\Department::count() }}</span>
+                    <span class="leading-tight">Departments</span>
+                </h3>
+            </div>
+            </a>
         </div>
-        <div class="w-full bg-gray-200 text-center border border-gray-300 px-8 py-6 rounded">
-            <h3 class="text-gray-700 uppercase font-bold">
-                <span class="text-4xl">{{ sprintf("%02d", count($students)) }}</span>
-                <span class="leading-tight">Students</span>
-            </h3>
+        <div class="col-md-3 col-sm-4">
+            <a class="no-decoration" href="{{ route('course.index') }}">
+            <div class="card w-full bg-gray-200 text-center border border-gray-300 px-8 py-6 rounded">
+                <h3 class="text-gray-700 uppercase font-bold">
+                    <span class="text-4xl">{{ \App\Course::count() }}</span>
+                    <span class="leading-tight">Courses</span>
+                </h3>
+            </div>
+            </a>
+        </div>
+        <div class="col-md-3 col-sm-4">
+            <a class="no-decoration" href="/setting">
+            <div class="card w-full bg-gray-200 text-center border border-gray-300 px-8 py-6 rounded">
+                <h3 class="text-gray-700 uppercase font-bold">
+                    <span class="text-4xl"></span>
+                    <span class="leading-tight">General settings</span>
+                </h3>
+            </div>
+            </a>
         </div>
     </div>
 </div>
+{{-- <div class="row w-full block mt-8">
+    <div class="col-md-12">
+        <div class="col-md-3">
+            <div class="card w-full bg-gray-200 text-center border border-gray-300 px-8 py-6 rounded">
+                <h3 class="text-gray-700 uppercase font-bold">
+                    <span class="text-4xl">{{ sprintf("%02d", count($parents)) }}</span>
+                    <span class="leading-tight">Parents</span>
+                </h3>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card w-full bg-gray-200 text-center border border-gray-300 px-8 py-6 rounded">
+                <h3 class="text-gray-700 uppercase font-bold">
+                    <span class="text-4xl">{{ sprintf("%02d", count($parents)) }}</span>
+                    <span class="leading-tight">Parents</span>
+                </h3>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card w-full bg-gray-200 text-center border border-gray-300 px-8 py-6 rounded">
+                <h3 class="text-gray-700 uppercase font-bold">
+                    <span class="text-4xl">{{ sprintf("%02d", count($parents)) }}</span>
+                    <span class="leading-tight">Parents</span>
+                </h3>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card w-full bg-gray-200 text-center border border-gray-300 px-8 py-6 rounded">
+                <h3 class="text-gray-700 uppercase font-bold">
+                    <span class="text-4xl">{{ sprintf("%02d", count($parents)) }}</span>
+                    <span class="leading-tight">Parents</span>
+                </h3>
+            </div>
+        </div>
+    </div>
+</div> --}}

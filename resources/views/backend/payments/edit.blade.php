@@ -63,11 +63,9 @@
                 <label for="level">Select Level</label>
                 <select class="form-control" id="level" name="level" requied>
                     <option value="0" {{ $payment->level == '0' ? 'selected' : ''}}>All</option>
-                    <option value="1" {{ $payment->level == '1' ? 'selected' : ''}}>Level 100</option>
-                    <option value="2" {{ $payment->level == '2' ? 'selected' : ''}}>Level 200</option>
-                    <option value="3" {{ $payment->level == '3' ? 'selected' : ''}}>Level 300</option>
-                    <option value="4" {{ $payment->level == '4' ? 'selected' : ''}}>Level 400</option>
-                    <option value="5" {{ $payment->level == '5' ? 'selected' : ''}}>Level 500</option>
+                    @foreach(app('App\Http\Controllers\Controller')->getLevels() as $level)
+                    <option value="{{ $level }}" {{ old('level') == $level ? 'selected' : '' }}>{{ $level }}00</option>
+                    @endforeach
                 </select>
             </div>
             <div class="form-group">

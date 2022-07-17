@@ -56,7 +56,7 @@ class LoginController extends Controller
         );
        
         $fieldType = filter_var($request->username) ? 'matric' : 'staff_no';
-        
+       
         if (auth()->attempt(array($fieldType => $input['username'], 'password' => $input['password']))) {
             return redirect()->route('home');
         }

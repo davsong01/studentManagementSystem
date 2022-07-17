@@ -18,9 +18,11 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'profile_picture','surname','matric','staff_no'
+        'name', 'email', 'password', 'profile_picture','surname','middle_name','matric','staff_no'
     ];
-
+    protected $guarded = [
+        'name', 'email', 'password', 'profile_picture', 'surname', 'middle_name', 'matric', 'staff_no'
+    ];
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -47,10 +49,5 @@ class User extends Authenticatable
     public function student()
     {
         return $this->hasOne(Student::class);
-    }
-
-    public function parent()
-    {
-        return $this->hasOne(Parents::class);
     }
 }

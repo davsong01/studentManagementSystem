@@ -6,9 +6,6 @@
        <div class="flex items-center justify-between mb-6">
             <div>
                 <h2 class="text-gray-700 uppercase font-bold">Upload result</h2>
-                {{-- <p style="color:blue">
-                     NOTE: Once results are entered for a student, i
-                </p> --}}
             </div>
             <div class="flex flex-wrap items-center">
                 <a href="{{ route('result.index') }}" class="bg-gray-200 text-gray-700 text-sm uppercase py-2 px-4 flex items-center rounded">

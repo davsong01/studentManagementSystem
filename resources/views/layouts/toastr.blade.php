@@ -38,6 +38,15 @@
         toastr.warning("{{ session('warning') }}");
     @endif
 
+     @if(Session::has('error'))
+    toastr.options =
+    {
+        "closeButton" : true,
+        "progressBar" : true
+    }
+        toastr.error("{{ session('error') }}");
+    @endif
+
     @if(session()->get('message'))
     toastr.options =
     {

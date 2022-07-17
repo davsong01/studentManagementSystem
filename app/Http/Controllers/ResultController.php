@@ -49,17 +49,32 @@ class ResultController extends Controller
         return view('backend.results.list', compact('requests','results'));
     }
 
+    public function listResults(){
+        $student = auth()->user()->student;
+       
+        $results = Result::whereUserId(auth()->user()->id)->whereStatus('published')->whereStudentId($student->id)->get();
+        
+        if(isset($results) && $results->count() < 1 ){
+            return back()->with('warning','No results found!');
+        }
+
+        return view('dashboard.student.results', compact('results','student'));
+    }
+
+    public function singleResult($id){
+        $result = Result::whereId($id)->first();
+        $results = json_decode($result->courses);
+       
+        return view('dashboard.student.single-result', compact('results','result'));
+    }
+
+
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+   
     public function store(Request $request)
     {
         //
@@ -109,14 +124,18 @@ class ResultController extends Controller
             }
         }
 
+        // Calulate gp
+        $gp = $this->calculateGpa($courses, $result->maximum_units);
+        $cgpa = $this->calculateCgpa($result->student_id);
+
         $result->update([
             'courses' => json_encode($courses),
-            'total_score' => array_sum($total_score),
+            'weighted_point' =>  $gp['wp'],
+            'gpa' => $gp['gp'],
+            'cgpa' => $cgpa,
             'status' => 'published',
         ]);
-        // Calulate gp
-        $gp = $this->calculateGpa();
-        $cgpa = $this->calculateCgpa();
+       
         $param = base64_decode($request->pram);
         $param = json_decode($param, true);
         $param = http_build_query($param);

@@ -7,9 +7,16 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
-
+    {{-- // data table --}}
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    
+    <style>
+        .ss {
+            font-size: small;
+        }
+        .max-w-xs {
+            max-width: 29rem;
+            }
+    </style>
 </head>
 <body class="bg-gray-100 font-sans antialiased">
     <div id="app-2">

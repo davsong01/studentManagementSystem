@@ -61,11 +61,9 @@
                 <label for="level">Select Level</label>
                 <select class="form-control" id="level" name="level" requied>
                     <option value="0">All</option>
-                    <option value="1">Level 1</option>
-                    <option value="2">Level 2</option>
-                    <option value="3">Level 3</option>
-                    <option value="4">Level 4</option>
-                    <option value="5">Level 5</option>
+                    @foreach(app('App\Http\Controllers\Controller')->getLevels() as $level)
+                    <option value="{{ $level }}">{{ $level }}00</option>
+                    @endforeach
                 </select>
             </div>
             <div class="form-group">

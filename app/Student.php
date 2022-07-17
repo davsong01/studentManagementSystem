@@ -12,7 +12,6 @@ class Student extends Model
 {
     protected $fillable = [
         'user_id',
-        'profile_picture',
         'gender',
         'phone',
         'dateofbirth',
@@ -23,7 +22,6 @@ class Student extends Model
         "department_id",
         "faculty_id",
         "state_of_origin",
-        "matric",
         "lga",
         "nationality",
         "current_address",
@@ -33,6 +31,7 @@ class Student extends Model
         "nok_name",
         "nok_phone",
         "nok_relationship",
+        "locked",
     ];
 
     public function user() 
@@ -53,6 +52,11 @@ class Student extends Model
     public function attendances() 
     {
         return $this->hasMany(Attendance::class);
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class, 'student_id');
     }
 
     public function getSemesterAttribute($value)

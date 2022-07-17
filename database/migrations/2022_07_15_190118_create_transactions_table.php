@@ -18,7 +18,18 @@ class CreateTransactionsTable extends Migration
             $table->string('trans_id')->nullable();
             $table->string('reference')->nullable();
             $table->string('user_id')->nullable();
+            $table->string('amount')->nullable();
+            $table->string('student_id')->nullable();
             $table->string('payment_id')->nullable();
+            $table->string('name')->nullable();
+            $table->string('department_id')->nullable();
+            $table->string('program')->nullable();
+            $table->string('level')->nullable();
+            $table->string('faculty_id')->nullable();
+            $table->string('session')->nullable();
+            $table->string('semester')->nullable();
+            $table->string('status')->initiated();
+
             $table->timestamps();
         });
     }

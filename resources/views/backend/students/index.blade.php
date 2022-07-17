@@ -40,7 +40,7 @@
                 <td>{{ $i++ }}</td>
                 <td>{{ $student->user->matric }}</td>
                 <td>
-                    <img class="rounded-full mr-2 profile-avatar" style="width: 80px;height:80px" src="{{ asset('images/profile/' . auth()->user()->profile_picture) }}" alt="Avatar">
+                    <img class="rounded-full mr-2 profile-avatar" style="width: 80px;height:80px" src="{{ asset('images/profile/' . $student->user->profile_picture) }}" alt="Avatar">
                 <td>
                     <b>Name: </b>{{ $student->user->name ?? '--'. ' ' . $student->user->surname ?? '--' }} <br>
                     <b>Email: </b>{{ $student->user->email ?? '--'}} <br>

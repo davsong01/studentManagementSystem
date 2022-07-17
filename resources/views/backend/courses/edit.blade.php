@@ -32,15 +32,15 @@
             </div>
             <div class="form-group">
                 <label for="units">Course Units</label>
-                <input type="number" min="1" class="form-control" id="units" value="{{ old('units') }}" name="units" placeholder="Enter course units" required>
+                <input type="number" min="1" class="form-control" id="units" value="{{ old('units') ?? $course->units }}" name="units" placeholder="Enter course units" required>
             </div>
             <div class="form-group">
                 <label for="type">Course Type</label>
                 <select class="form-control" id="type" name="type">
                     <option>Select</option>
-                    <option value="C" {{ old('type') == 'C' ? 'selected' : '' }}>Core</option>
-                    <option value="E" {{ old('type') == 'E' ? 'selected' : '' }}>Elective</option>
-                    <option value="G" {{ old('type') == 'G' ? 'selected' : '' }}>General</option>
+                    <option value="C" {{ $course->type == 'C' ? 'selected' : '' }}>Core</option>
+                    <option value="E" {{ $course->type == 'E' ? 'selected' : '' }}>Elective</option>
+                    <option value="G" {{ $course->type == 'G' ? 'selected' : '' }}>General</option>
                 </select>
             </div>
             <div class="form-group">
@@ -75,11 +75,9 @@
                 <label for="level">Select Level</label>
                 <select class="form-control" id="level" name="level">
                     <option>Select</option>
-                    <option value="1" {{ $course->level == 1 ? 'selected' : ''}}>Level 1</option>
-                    <option value="2" {{ $course->level == 2 ? 'selected' : ''}}>Level 2</option>
-                    <option value="3" {{ $course->level == 3 ? 'selected' : ''}}>Level 3</option>
-                    <option value="4" {{ $course->level == 4 ? 'selected' : ''}}>Level 4</option>
-                    <option value="5" {{ $course->level == 5 ? 'selected' : ''}}>Level 5</option>
+                    @foreach(app('App\Http\Controllers\Controller')->getLevels() as $level)
+                    <option value="{{ $level }}" {{ $course->level == $level ? 'selected' : '' }}>{{ $level }}00</option>
+                    @endforeach
                 </select>
             </div>
             <div class="form-group">

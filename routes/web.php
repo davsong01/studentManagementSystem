@@ -64,13 +64,36 @@ Route::group(['middleware' => ['auth','role:Teacher']], function ()
     Route::get('attendance-create/{classid}', 'AttendanceController@createByTeacher')->name('teacher.attendance.create');
 });
 
-Route::group(['middleware' => ['auth','role:Parent']], function () 
-{
-    Route::get('attendance/{attendance}', 'AttendanceController@show')->name('attendance.show');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('payment/show/{id}', 'HomeController@singlePayment')->name('payments.show');
 });
 
 Route::group(['middleware' => ['auth','role:Student']], function () {
+    Route::get('biodata/{student}', 'HomeController@profileEdit')->name('biodata.edit');
+    Route::patch('biodata/{student}', 'HomeController@profileUpdate')->name('biodata.save');
+
+    Route::get('courses-form/{student}', 'HomeController@viewCourseForm')->name('coursesform.edit');
+    Route::post('courses-form/{student}', 'HomeController@updateCourseForm')->name('coursesform.save');
+    Route::get('view-courses-form/{student}', 'HomeController@printCourseForm')->name('coursesform.view');
+
+    Route::get('results-list', 'ResultController@listResults')->name('results.list');
+    Route::get('results-single/{result}', 'ResultController@singleResult')->name('result.show');
+
     Route::get('student/courses', 'HomeController@viewCourse')->name('student.course');
     Route::get('student/courses', 'HomeController@registerCourse')->name('student.register.course');
     Route::post('student/courses', 'HomeController@registerCourse')->name('student.save.course');
+
+    Route::get('gp/cal1', 'GpController@index')->name('gp.cal1');
+    Route::post('gp/cal1', 'GpController@process')->name('gp.cal2');
+    Route::get('make-payments', 'PaymentsController@showPayments')->name('make-payments');
+    Route::get('payments-history', 'PaymentsController@paymentsHistory')->name('payments.history');
+    Route::get('initialize-payments/{id}', 'PaymentsController@initializePayment')->name('payments.initilize');
+    Route::get('payment/callback', 'PaymentsController@processPayment');
+    
+    Route::get('clear-session', function(){
+        \Session::remove('courses');
+        \Session::remove('gp');
+
+        return response()->json(['status'=>200]);
+    });
 });
