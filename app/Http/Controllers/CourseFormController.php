@@ -86,6 +86,7 @@ class CourseFormController extends Controller
 
     public function store(Request $request)
     {
+      
         $this->validate($request, [
             'courses' => 'required',
         ]);
@@ -110,7 +111,7 @@ class CourseFormController extends Controller
         }
         // Check if maximum units = selected courses
         if($request->maximum_units != $sum){
-            return back()->with('error','Selected course units does not match maximum units entered');
+            return redirect(route('courseForm.index'))->with('error', 'Selected course units does not match maximum units entered, please edit and try again');
         }
         // Check if course form with same department, semester, level and program exists
         CourseForm::whereId($request->id)->update([

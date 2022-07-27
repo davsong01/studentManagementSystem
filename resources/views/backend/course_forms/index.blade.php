@@ -7,7 +7,7 @@
     <div class="col-md-12">
         <div class="flex items-center justify-between mb-6">
             <div>
-                <h2 class="text-gray-700 uppercase font-bold">Courses</h2>
+                <h2 class="text-gray-700 uppercase font-bold">Courses Forms</h2>
             </div>
             <div class="flex flex-wrap items-center">
                 <a href="{{ route('courseForm.create') }}" class="btn btn-primary">

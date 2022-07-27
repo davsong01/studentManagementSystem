@@ -40,22 +40,9 @@ class HomeController extends Controller
         $user = Auth::user();
 
         if ($user->hasRole('Admin')) {
-
-            $parents = Parents::latest()->get();
-            $teachers = Teacher::latest()->get();
             $students = Student::latest()->get();
 
-            return view('home', compact('parents', 'teachers', 'students'));
-        } elseif ($user->hasRole('Teacher')) {
-
-            $teacher = Teacher::with(['user', 'courses', 'classes', 'students'])->withCount('courses', 'classes')->findOrFail($user->teacher->id);
-
-            return view('home', compact('teacher'));
-        } elseif ($user->hasRole('Parent')) {
-
-            $parents = Parents::with(['children'])->withCount('children')->findOrFail($user->parent->id);
-
-            return view('home', compact('parents'));
+            return view('home', compact('students'));
         } elseif ($user->hasRole('Student')) {
            
             $student = Student::with(['user'])->findOrFail($user->student->id);
