@@ -105,12 +105,31 @@
         element {
 
         }
-    .w-full {
-        margin-bottom: 20px;
-    } 
-    .no-decoration {
-        text-decoration: none !important;
-    }
+        .w-full {
+            margin-bottom: 20px;
+        } 
+        .no-decoration {
+            text-decoration: none !important;
+        }
+
+        .sidebar{
+              background: black;
+        }
+        .items-center.text-gray-600.py-2 {
+            color: white !important;
+            padding: 0px 20px;
+        }
+        .items-center.text-gray-600.py-2:hover {
+            color: white !important;
+        }
+        .btn-primary {
+            background-color: #b04a2b;
+            border-color: #b04a2b;
+        }
+        
+        .active{
+            border-left: #b04a2b 2px solid;
+        }
     </style>
     @yield('css')
 </head>

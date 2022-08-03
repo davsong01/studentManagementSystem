@@ -2959,7 +2959,7 @@ video {
 }
 
 .bg-blue-700{
-  background-color: #2b6cb0;
+  background-color: #b04a2b;
 }
 
 .bg-blue-800{
@@ -5649,7 +5649,7 @@ video {
 }
 
 .font-semibold{
-  font-weight: 600;
+  font-weight: lighter;
 }
 
 .font-bold{
@@ -8013,7 +8013,9 @@ video {
 
 .fill-current{
   fill: currentColor;
+  color: white !important;
 }
+
 
 .stroke-current{
   stroke: currentColor;
@@ -9163,8 +9165,9 @@ video {
   font-size: 0.75rem;
 }
 
-.text-sm{
+.text-sm
   font-size: 0.875rem;
+  color:white !important
 }
 
 .text-base{
