@@ -53,7 +53,7 @@
         @endrole
         @role('Student')        
         <a href="{{ route('gp.cal1') }}" class="{{  Request::is('gp*') ? 'active' : ''  }} flex items-center text-gray-600 py-2 hover:text-blue-700">
-            <i class="fa fa-certificate"></i>
+            <i class="fa fa-calculator"></i>
             <span class="ml-2 text-sm font-semibold">GP Calculator</span>
         </a>
         
