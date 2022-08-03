@@ -92,11 +92,10 @@ class Controller extends BaseController
 
     public function calculateCgpa($student_id, $result_id){
         $prev_results = Result::whereStudentId($student_id)->where('id', '<=', $result_id)->get();
-       
-        $t_wp = 0;
+
         $t_gp = 0;
         if (isset($prev_results) && !empty($prev_results)) {
-            $t_gp = $prev_results->sum('gpa');
+            $t_gp = $prev_results->sum('gpa') / $prev_results->count();
         }
 
         return $t_gp;
