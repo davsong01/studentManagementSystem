@@ -72,7 +72,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6" style="margin: 10px 0;">
+        {{-- <div class="col-md-6" style="margin: 10px 0;">
             <div class="card">
                 <div class="card-body">
                     <a href="{{ route('make-payments') }}" class="text-green">
@@ -93,7 +93,7 @@
                     </a>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <div class="col-md-6" style="margin: 10px 0;">
             <div class="card">
                 <div class="card-body">
