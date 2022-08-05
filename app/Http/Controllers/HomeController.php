@@ -238,11 +238,9 @@ class HomeController extends Controller
         $range = 1;
 
         foreach($users as $user){
-            if($range < 25){
-                $user->update([
-                    'profile_picture' => $range ++ . '.jpg',
-                ]);
-            }
+            $user->update([
+                'profile_picture' => $range ++ . '.jpg',
+            ]);
             
             $range ++;
             
