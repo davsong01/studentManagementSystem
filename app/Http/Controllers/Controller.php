@@ -126,12 +126,12 @@ class Controller extends BaseController
 
             case ($score >= 60 && $score <= 69):
                 $grade = 'B';
-                $gp = 3.50;
+                $gp = 4.00;
                 break;
 
             case ($score >= 70 && $score <= 100):
                 $grade = 'A';
-                $gp = 4.00;
+                $gp = 5.00;
                 break;
             default:
                 # code...

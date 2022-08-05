@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Faker\Factory;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -19,16 +20,16 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(RolesAndPermissionsSeeder::class);
 
-        $user = User::create([
-            'name'          => 'Admin',
-            'middlename'          => 'Admin',
-            'surname'          => 'Admin',
-            'matric'          => '12345678',
-            'email'         => 'admin@demo.com',
-            'password'      => bcrypt('12345678'),
-            'created_at'    => date("Y-m-d H:i:s")
-        ]);
-        $user->assignRole('Admin');
+        // $user = User::create([
+        //     'name'          => 'Admin',
+        //     'middlename'          => 'Admin',
+        //     'surname'          => 'Admin',
+        //     'matric'          => '12345678',
+        //     'email'         => 'admin@demo.com',
+        //     'password'      => bcrypt('12345678'),
+        //     'created_at'    => date("Y-m-d H:i:s")
+        // ]);
+        // $user->assignRole('Admin');
 
         // $user2 = User::create([
         //     'name'          => 'Teacher',
@@ -47,14 +48,32 @@ class DatabaseSeeder extends Seeder
         //     'created_at'    => date("Y-m-d H:i:s")
         // ]);
         // $user3->assignRole('Parent');
+        for ($i=51; $i < 51; $i++) {
+            $faker = Factory::create();
 
-        // $user4 = User::create([
-        //     'name'          => 'Student',
-        //     'email'         => 'student@demo.com',
-        //     'password'      => bcrypt('12345678'),
-        //     'created_at'    => date("Y-m-d H:i:s")
-        // ]);
-        // $user4->assignRole('Student');
+            DB::table("students")->insert([
+                "name" => $faker->name(),
+                "email" => $faker->safeEmail,
+                "mobile" => $faker->phoneNumber,
+                "age" => $faker->numberBetween(25, 50),
+                "gender" => $faker->randomElement(["male", "female", "others"]),
+                "address_info" => $faker->address,
+            ]);
+            $user = User::create([
+                'name'          => $faker->name(),
+                'middlename'          => $faker->name(),
+                'surname'          => $faker->name(),
+                'email'         => 'admin@demo.com',
+                'password'      => bcrypt('12345678'),
+                'created_at'    => date("Y-m-d H:i:s")
+            ]);
+            $user->update([
+                'matric' => app('App\Http\Controllers\FunctionsController')->
+            ])
+            $user->assignRole('Student');
+        } 
+        
+       
 
 
         // DB::table('teachers')->insert([
