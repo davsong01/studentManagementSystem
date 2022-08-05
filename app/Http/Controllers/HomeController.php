@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Grade;
 use App\Models\Course;
 use App\Models\Result;
@@ -9,8 +10,8 @@ use App\Models\Faculty;
 use App\Models\Parents;
 use App\Models\Student;
 use App\Models\Teacher;
-use App\Models\CourseForm;
 
+use App\Models\CourseForm;
 use App\Models\Department;
 use App\Models\Transaction;
 use Illuminate\Support\Str;

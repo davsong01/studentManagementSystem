@@ -133,7 +133,7 @@ class CourseFormController extends Controller
             ->get();
 
         $selected = [];
-        $selected = json_decode($courseForm->available_courses, true);
+        $selected = isset($courseForm->available_courses) ? json_decode($courseForm->available_courses, true) : [];
         $total = !empty($selected) ? array_sum(array_column($selected, 'units')) : 0;
         $faculty = Faculty::whereId('$faculty_id')->value('name');
         $department = Department::whereId($courseForm->department_id)->value('name');

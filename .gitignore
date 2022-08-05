@@ -1,16 +1,16 @@
-node_modules
+# node_modules
 # public
-public/storage
-storage/*.key
-vendor
+# public/storage
+# storage/*.key
+# vendor
 .env
-.phpunit.result.cache
-Homestead.json
-Homestead.yaml
-npm-debug.log
-yarn-error.log
-.README.md
-/public/images/profile/!avatar.png
-/public/images/profile/*.png
-/public/images/profile/*.jpg
-/public/images/profile/*.jpeg
+# .phpunit.result.cache
+# Homestead.json
+# Homestead.yaml
+# npm-debug.log
+# yarn-error.log
+# .README.md
+# /public/images/profile/!avatar.png
+# /public/images/profile/*.png
+# /public/images/profile/*.jpg
+# /public/images/profile/*.jpeg
