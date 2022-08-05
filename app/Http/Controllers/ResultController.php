@@ -144,7 +144,7 @@ class ResultController extends Controller
             'courses' => json_encode($courses),
             'weighted_point' =>  $gp['wp'],
             'gpa' => $gp['gp'],
-            'cgpa' => $cgpa,
+            'cgpa' => number_format($cgpa, 2),
             'status' => 'published',
         ]);
        
