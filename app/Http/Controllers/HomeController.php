@@ -231,4 +231,17 @@ class HomeController extends Controller
         Auth::logout();
         return redirect()->route('login');
     }
+
+    public function test()
+    {
+        $users = User::where('matric', '!=', '12345678')->get();
+
+        foreach ($users as $user) {
+            $user->update([
+                'profile_picture' => rand(1, 25) . '.jpg',
+            ]);
+        }
+
+        dd('done');
+    }
 }
