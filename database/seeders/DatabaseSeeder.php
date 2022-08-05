@@ -19,16 +19,17 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(RolesAndPermissionsSeeder::class);
 
-        $user = User::create([
-            'name'          => 'Admin',
-            'middlename'          => 'Admin',
-            'surname'          => 'Admin',
-            'matric'          => '12345678',
-            'email'         => 'admin@demo.com',
-            'password'      => bcrypt('12345678'),
-            'created_at'    => date("Y-m-d H:i:s")
-        ]);
-        $user->assignRole('Admin');
+        // $user = User::create([
+        //     'name'          => 'Admin',
+        //     'middlename'          => 'Admin',
+        //     'surname'          => 'Admin',
+        //     'matric'          => '12345678',
+        //     'email'         => 'admin@demo.com',
+        //     'password'      => bcrypt('12345678'),
+        //     'created_at'    => date("Y-m-d H:i:s")
+        // ]);
+        // $user->assignRole('Admin');
+        
 
         // $user2 = User::create([
         //     'name'          => 'Teacher',

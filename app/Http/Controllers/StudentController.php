@@ -57,6 +57,7 @@ class StudentController extends Controller
             'dateofbirth' => 'nullable|date',
             'current_address' => 'nullable|max:255',
             "state_of_origin" => 'nullable|string',
+            "profile_picture" => 'nullable',
             "lga" => 'nullable',
             "year_of_admission" => 'nullable'
         ]);
