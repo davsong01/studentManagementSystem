@@ -235,15 +235,11 @@ class HomeController extends Controller
     public function test(){
         $users = User::where('matric', '!=', '12345678')->get();
         
-        $range = 1;
-
         foreach($users as $user){
-            $user->update([
-                'profile_picture' => $range ++ . '.jpg',
-            ]);
-            
-            $range ++;
-            
+                $user->update([
+                    'profile_picture' => rand(1, 25). '.jpg',
+                ]);
+           
         }
 
         dd('done');
