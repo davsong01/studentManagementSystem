@@ -143,8 +143,8 @@ class ResultController extends Controller
         $result->update([
             'courses' => json_encode($courses),
             'weighted_point' =>  $gp['wp'],
-            'gpa' => number_format($gp['gp'], 2),
-            'cgpa' => number_format($cgpa, 2),
+            'gpa' => $gp['gp'],
+            'cgpa' => $cgpa,
             'status' => 'published',
         ]);
        

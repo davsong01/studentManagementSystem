@@ -143,14 +143,14 @@
                                     <td class="fil">
                                         Total point (s) </td>
                                     <td>
-                                        <span id="LblPoint1">{{ $result->weighted_point }}</span>
+                                        <span id="LblPoint1">{{ number_format($result->weighted_point, 2) }}</span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="fil">
                                         Grade Point Avarage</td>
                                     <td>
-                                        <span id="Lblgpa1">{{ $result ->gpa }}</span>
+                                        <span id="Lblgpa1">{{ number_format($result ->gpa,2) }}</span>
                                     </td>
                                 </tr>
                             </table>
@@ -164,7 +164,7 @@
                                     <td class="fil2">
                                         Cummulative CGPA</td>
                                     <td>
-                                        <span id="Lblgpa2">{{ $result->cgpa }}</span>
+                                        <span id="Lblgpa2">{{ number_format($result->cgpa, 2) }}</span>
                                     </td>
                                 </tr>
                             </table>
