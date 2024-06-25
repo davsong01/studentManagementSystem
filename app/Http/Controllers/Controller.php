@@ -92,23 +92,23 @@ class Controller extends BaseController
 
     public function calculateCgpa($student_id, $result_id){
         $prev_results = Result::whereStudentId($student_id)->where('id', '<=', $result_id)->get();
-       
-        $t_wp = 0;
+
         $t_gp = 0;
         if (isset($prev_results) && !empty($prev_results)) {
-            $t_gp = $prev_results->sum('gpa');
+            $t_gp = $prev_results->sum('gpa') / $prev_results->count();
         }
 
         return $t_gp;
     }
-    
-    public function getGradeAlphabet($score){
+
+    public function getGradeAlphabet($score)
+    {
         switch ($score) {
             case ($score >= 1 && $score <= 39):
                 $grade = 'F';
                 $gp = 0.00;
                 break;
-                
+
             case ($score >= 40 && $score <= 44):
                 $grade = 'E';
                 $gp = 1.00;
@@ -126,12 +126,12 @@ class Controller extends BaseController
 
             case ($score >= 60 && $score <= 69):
                 $grade = 'B';
-                $gp = 3.50;
+                $gp = 4.00;
                 break;
 
             case ($score >= 70 && $score <= 100):
                 $grade = 'A';
-                $gp = 4.00;
+                $gp = 5.00;
                 break;
             default:
                 # code...
@@ -139,9 +139,9 @@ class Controller extends BaseController
         }
 
         return $result = [
-                'grade' => $grade,
-                'gp' => $gp,
-            ];
+            'grade' => $grade,
+            'gp' => $gp,
+        ];
     }
 
    

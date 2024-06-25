@@ -6,12 +6,12 @@
         </a>
         @role('Admin')
         <a href="{{ route('faculty.index') }}" class="{{  Request::is('faculty*') ? 'active' : ''  }} flex items-center text-gray-600 py-2 hover:text-blue-700">
-            <svg class="h-4 w-4 fill-current" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="grip-horizontal" class="svg-inline--fa fa-grip-horizontal fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M96 288H32c-17.67 0-32 14.33-32 32v64c0 17.67 14.33 32 32 32h64c17.67 0 32-14.33 32-32v-64c0-17.67-14.33-32-32-32zm160 0h-64c-17.67 0-32 14.33-32 32v64c0 17.67 14.33 32 32 32h64c17.67 0 32-14.33 32-32v-64c0-17.67-14.33-32-32-32zm160 0h-64c-17.67 0-32 14.33-32 32v64c0 17.67 14.33 32 32 32h64c17.67 0 32-14.33 32-32v-64c0-17.67-14.33-32-32-32zM96 96H32c-17.67 0-32 14.33-32 32v64c0 17.67 14.33 32 32 32h64c17.67 0 32-14.33 32-32v-64c0-17.67-14.33-32-32-32zm160 0h-64c-17.67 0-32 14.33-32 32v64c0 17.67 14.33 32 32 32h64c17.67 0 32-14.33 32-32v-64c0-17.67-14.33-32-32-32zm160 0h-64c-17.67 0-32 14.33-32 32v64c0 17.67 14.33 32 32 32h64c17.67 0 32-14.33 32-32v-64c0-17.67-14.33-32-32-32z"></path></svg>
-            <span class="ml-2 text-sm font-semibold">Faculties</span>
+            <i class="fa fa-list "></i>
+            <span class="ml-2 text-sm font-semibold">Faculties Management</span>
         </a>
         <a href="{{ route('department.index') }}" class=" {{  Request::is('department*') ? 'active' : ''  }} flex items-center text-gray-600 py-2 hover:text-blue-700">
-            <svg class="h-4 w-4 fill-current" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="grip-horizontal" class="svg-inline--fa fa-grip-horizontal fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M96 288H32c-17.67 0-32 14.33-32 32v64c0 17.67 14.33 32 32 32h64c17.67 0 32-14.33 32-32v-64c0-17.67-14.33-32-32-32zm160 0h-64c-17.67 0-32 14.33-32 32v64c0 17.67 14.33 32 32 32h64c17.67 0 32-14.33 32-32v-64c0-17.67-14.33-32-32-32zm160 0h-64c-17.67 0-32 14.33-32 32v64c0 17.67 14.33 32 32 32h64c17.67 0 32-14.33 32-32v-64c0-17.67-14.33-32-32-32zM96 96H32c-17.67 0-32 14.33-32 32v64c0 17.67 14.33 32 32 32h64c17.67 0 32-14.33 32-32v-64c0-17.67-14.33-32-32-32zm160 0h-64c-17.67 0-32 14.33-32 32v64c0 17.67 14.33 32 32 32h64c17.67 0 32-14.33 32-32v-64c0-17.67-14.33-32-32-32zm160 0h-64c-17.67 0-32 14.33-32 32v64c0 17.67 14.33 32 32 32h64c17.67 0 32-14.33 32-32v-64c0-17.67-14.33-32-32-32z"></path></svg>
-            <span class="ml-2 text-sm font-semibold">Departments</span>
+            <i class="fa fa-building-o"></i>
+            <span class="ml-2 text-sm font-semibold">Departments Management</span>
         </a>
         <a href="{{ route('course.index') }}" class="{{  Request::is('course') ? 'active' : ''  }} flex items-center text-gray-600 py-2 hover:text-blue-700">
             <svg class="h-4 w-4 fill-current" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="align-right" class="svg-inline--fa fa-align-right fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M160 84V44c0-8.837 7.163-16 16-16h256c8.837 0 16 7.163 16 16v40c0 8.837-7.163 16-16 16H176c-8.837 0-16-7.163-16-16zM16 228h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 256h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm160-128h256c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H176c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"></path></svg>
@@ -52,24 +52,20 @@
         @endrole
         @role('Student')
 
-        <a href="{{ route('results.list') }}" class="flex items-center text-gray-600 py-2 hover:text-blue-700">
+        <a href="{{ route('results.list') }}" class="{{  Request::is('results*') ? 'active' : ''  }} flex items-center text-gray-600 py-2 hover:text-blue-700">
             <i class="fa fa-certificate"></i>
             <span class="ml-2 text-sm font-semibold">Results</span>
         </a>
         
-        <a href="{{ route('gp.cal1') }}" class="flex items-center text-gray-600 py-2 hover:text-blue-700">
-            <i class="fa fa-certificate"></i>
+        {{-- <a href="{{ route('gp.cal1') }}" class="{{  Request::is('gp*') ? 'active' : ''  }} flex items-center text-gray-600 py-2 hover:text-blue-700">
+            <i class="fa fa-calculator"></i>
             <span class="ml-2 text-sm font-semibold">GP Calculator</span>
-        </a>
-        <a href="{{ route('payments.history') }}" class="flex items-center text-gray-600 py-2 hover:text-blue-700">
+        </a> --}}
+        <a href="{{ route('payments.history') }}" class="{{  Request::is('payment*') ? 'active' : ''  }} flex items-center text-gray-600 py-2 hover:text-blue-700">
             <i class="fa fa-money"></i>
             <span class="ml-2 text-sm font-semibold">Payment history</span>
         </a>
-        
-        {{-- <a href="{{ route('results.list') }}" class="flex items-center text-gray-600 py-2 hover:text-blue-700">
-            <i class="fa fa-certificate"></i>
-            <span class="ml-2 text-sm font-semibold">CGP Calculator</span>
-        </a> --}}
+      
         @endrole
     </div>
 </div>

@@ -15,8 +15,8 @@ class CreateCourseFormsTable extends Migration
     {
         Schema::create('course_forms', function (Blueprint $table) {
             $table->id();
-            $table->string('rid')->nallable();
             $table->string('program');
+            $table->string('status')->nullable();
             $table->string('level');
             $table->string('session');
             $table->string('department_id');
